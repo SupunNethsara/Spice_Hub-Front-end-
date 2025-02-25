@@ -42,8 +42,8 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="flex shrink-0 items-center">
-            <img className="h-10 w-auto" src="/images/logo.png" alt="Logo" />
+          <div className="flex shrink-0 items-center ">
+            <img className="h-24 w-auto " src="/images/Main-logo.png" alt="Logo" />
           </div>
           <div className="flex flex-1 items-center justify-end sm:justify-end">
 

@@ -44,7 +44,7 @@ export default function Home() {
             >
               {texts[index]}
             </motion.h1>
-            <p className="max-w-2xl mb-6  font-light text-gray-500 lg:mb-8 md:text-lg  dark:text-gray-400 text-sm sm:text-lg ">
+            <p className="max-w-2xl mb-6 mt-10 font-light text-gray-500 lg:mb-8 dark:text-gray-400 text-sm sm:text-lg ">
             From the finest handpicked spices to expertly crafted blends, experience the true essence of flavor with our premium selection.
             </p>
             <div className="flex space-x-4">

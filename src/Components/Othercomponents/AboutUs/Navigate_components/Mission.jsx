@@ -8,8 +8,8 @@ export default function Mission() {
 
           <img class="max-w-sm hidden dark:block" src="/images/18apie-mus-2-removebg-preview.png" alt="dashboard image" />
           <div class="mt-4 md:mt-0">
-            <h2 style={{ fontFamily: "Montserrat, serif" }} class="mb-4 text-3xl tracking-tight font-bold text-gray-600 ">OUR VESION.</h2>
-            <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">Being one of Sri Lanka’s leading manufacturing and marketing
+            <h2 style={{ fontFamily: "Montserrat, serif" }} class="mb-4 text-3xl tracking-tight font-bold text-gray-600 ">OUR VESION</h2>
+            <p class="mb-6 font-light text-gray-500 md:text-md dark:text-gray-400">Being one of Sri Lanka’s leading manufacturing and marketing
               company of Spices & Condiment Products in Sri Lanka, we strive
               to become a world renowned Manufacture, Distributor & Exporter
               in the main items we produce.</p>
@@ -26,7 +26,7 @@ export default function Mission() {
           <img class="max-w-sm hidden dark:block order-2" src="/images/mission2.png" alt="dashboard image" />
           <div class="mt-4 md:mt-0">
             <h2 style={{ fontFamily: "Montserrat, serif" }} class="mb-4 text-3xl tracking-tight font-bold text-gray-600  ">OUR MISSION</h2>
-            <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">We always believe that we are the business & happy because
+            <p class="mb-6 font-light text-gray-500 md:text-md dark:text-gray-400">We always believe that we are the business & happy because
               of our esteemed customer’s satisfaction through feedback.
               We are always committed to improving the quality of our
               products by introducing and encouraging them
