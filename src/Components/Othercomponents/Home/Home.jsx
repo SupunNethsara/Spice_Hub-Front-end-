@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import Gallery from "./Gallery";
 import Main_category from "./Main_category";
 import Image_video from "./Image_video";
+import SupportiveCompanies from "./SupportiveCompanies";
 
 
 export default function Home() {
@@ -39,7 +40,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.8 }}
-              className="motion_sec max-w-2xl mb-4 tracking-tight leading-none  mt-4 text-3xl sm:text-6xl"
+              className="motion_sec max-w-2xl mb-4 tracking-tight leading-none  mt-4 text-3xl sm:text-5xl"
             >
               {texts[index]}
             </motion.h1>
@@ -69,7 +70,7 @@ export default function Home() {
       <Gallery />
       <Main_category />
       <Image_video />
-
+      <SupportiveCompanies/>
 
     </div>
   );

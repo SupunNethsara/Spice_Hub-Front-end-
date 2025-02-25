@@ -22,7 +22,6 @@
     font-family: "Poppins", serif;
     color: rgb(255, 255, 255);
     font-weight: 400;
-    // font-size: 50px;
     letter-spacing: 6px;
   }
 }
@@ -32,7 +31,9 @@
   background-size: cover;
   background-position: center;
 }
-
+.main_cat_text{
+  font-family: "Lora", serif;
+}
 //////Home Component
 
 .home_main {
@@ -60,7 +61,7 @@
 
 
   .motion_sec {
-    font-family: "Abel", serif;
+  font-family: "Montserrat", serif;
     color: rgb(255, 255, 255);
     font-weight: 400;
     // font-size: 60px;

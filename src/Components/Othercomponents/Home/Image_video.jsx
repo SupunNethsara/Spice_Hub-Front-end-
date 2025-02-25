@@ -10,7 +10,7 @@ function Image_video() {
             <Vedio/>
         </div>
     </div>
-    <div class="grid grid-cols-5 gap-4 p-8">
+    {/* <div class="grid grid-cols-5 gap-4 p-8">
         <div>
             <img class="h-auto max-w-full rounded-lg" src="/images/ratul-ghosh-NPrWYa69Mz0-unsplash.jpg" alt=""/>
         </div>
@@ -26,7 +26,7 @@ function Image_video() {
         <div>
             <img class="h-auto max-w-full rounded-lg" src="/images/ratul-ghosh-NPrWYa69Mz0-unsplash.jpg" alt=""/>
         </div>
-    </div>
+    </div> */}
 </div>
     </div>
   )
