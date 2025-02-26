@@ -21,7 +21,7 @@ export default function C_message() {
 
      
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <p className="text-gray-800 text-justify leading-relaxed">
+            <p className="text-gray-600 text-justify leading-relaxed text-sm">
               Wijaya Products (Pvt) Ltd was established in the year 1989 at Dodangoda, Kaluthara district with the help of one employee. Today it has become a renowned organization with more than 1240 employees. I am proud to mention here that our products are now popular in both local and foreign markets.  
               <br /><br />
               The secret behind our success is the dedication and commitment of the board of directors, management, and employees at all levels, to produce and market the highest quality products while considering customer feedback.  

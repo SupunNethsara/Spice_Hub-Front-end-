@@ -21,7 +21,7 @@ const AboutCategory = () => {
           {tabs.map((tab, index) => {
             const isActive = activeTab === tab.path;
             return (
-              <li key={index} className="m-1">
+              <li key={index} className="m-1 font-medium text-sm">
                 <Link to={tab.path}>
                   <button
                     className={`px-4 py-2  border-b-4  focus:outline-none transition-all duration-300 ${
