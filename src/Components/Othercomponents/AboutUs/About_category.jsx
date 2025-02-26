@@ -24,7 +24,7 @@ const AboutCategory = () => {
               <li key={index} className="m-1">
                 <Link to={tab.path}>
                   <button
-                    className={`px-4 py-2  border-b-4 focus:outline-none transition-all duration-300 ${
+                    className={`px-4 py-2  border-b-4  focus:outline-none transition-all duration-300 ${
                       isActive
                         ? "text-[#8BB500] border-[#8BB500] font-semibold"
                         : "text-gray-600 border-transparent hover:border-[#8BB500] hover:border-border-[#8BB500]"
