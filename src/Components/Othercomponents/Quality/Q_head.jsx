@@ -1,16 +1,17 @@
 import React from 'react'
-import './Products.scss'
-export default function Product_head() {
+import './Q_style.scss'
+export default function Q_head() {
     return (
         <div>
-            <section class="bg-white product_main">
+            <section class="bg-white Quality_main">
                 <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
 
-                    <h1 class="mt-12 mb-4 text-4xl text-amber-50  tracking-tight leading-none  md:text-5xl lg:text-6xl ">Products</h1>
-                    <p class="mb-8  font-normal text-gray-300 lg:text-md sm:px-16 xl:px-48">
-                        Being one of Sri Lanka’s leading manufacturing and marketing company of Spices & Condiment Products in Sri Lanka,
-                        we strive to become a world-renowned Manufacture, Distributor
-                        & Exporter in the main items we produce.</p>
+                    <h1 class="mt-12 mb-4 text-4xl text-amber-50  tracking-tight leading-none  md:text-5xl lg:text-6xl ">Quality Assurance</h1>
+                    <p class="mb-8  font-normal text-gray-300 lg:text-md sm:px-16 xl:px-48">BInspecting & Sampling of raw materials which come from selected
+                        and the best regular suppliers and performing analysis
+                        procedures as per relevant standards for confirming of quality
+                        of materials prior to
+                        use for process. </p>
                     <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
                         <a href="#" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
                             Learn more

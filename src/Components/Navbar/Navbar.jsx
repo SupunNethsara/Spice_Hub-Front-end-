@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import { NavLink, Link } from "react-router";
+import { NavLink, Link } from "react-router"; // Corrected import
+
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-black/60  shadow-md border-b  fixed top-0 left-0 w-full z-50">
+    <nav className="bg-black/60 shadow-md border-b fixed top-0 left-0 w-full z-50 ">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between w-full">
 
+          {/* Mobile Menu Button */}
           <div className="inset-y-0 left-0 flex items-center sm:hidden">
             <button
               type="button"
@@ -42,46 +44,72 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="flex shrink-0 items-center ">
-            <img className="h-24 w-auto " src="/images/Main-logo.png" alt="Logo" />
+          {/* Logo */}
+          <div className="flex shrink-0 items-center">
+            <img className="h-24 w-auto" src="/images/Main-logo.png" alt="Logo" />
           </div>
-          <div className="flex flex-1 items-center justify-end sm:justify-end">
 
+          {/* Desktop Menu */}
+          <div className="flex flex-1 items-center justify-end sm:justify-end">
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4 list-none">
-                <li className="rounded-md px-3 py-2 text-xs text-white list-none">
-                  <Link to="/">HOME</Link>
-                </li>
-                <li className="rounded-md px-3 py-2 text-xs text-gray-50 list-none">
-                  <Link to="/aboutus">ABOUT</Link>
-                </li>
-                <li className="rounded-md px-3 py-2 text-xs text-gray-50 list-none">
-
-                  <Link to="/products">PRODUCTS</Link>
-
-            
-                </li>
-                <li className="rounded-md px-3 py-2 text-xs text-gray-50 list-none">
-                  <Link to="">QUALITY ASSURANCE</Link>
-                </li>
-                <li className="rounded-md px-3 py-2 text-xs text-gray-50 list-none">
-                  <Link to="">CONTACT US</Link>
-                </li>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `rounded-md px-3 py-2 text-xs text-white hover:bg-[#a8ce2c]  transition-colors duration-200 ${
+                      isActive ? "bg-[#8bb500]" : ""
+                    }`
+                  }
+                >
+                  HOME
+                </NavLink>
+                <NavLink
+                  to="/aboutus"
+                  className={({ isActive }) =>
+                    `rounded-md px-3 py-2 text-xs text-gray-50 hover:bg-[#a8ce2c] transition-colors duration-200 ${
+                      isActive ? "bg-[#8bb500]" : ""
+                    }`
+                  }
+                >
+                  ABOUT
+                </NavLink>
+                <NavLink
+                  to="/products"
+                  className={({ isActive }) =>
+                    `rounded-md px-3 py-2 text-xs text-gray-50 hover:bg-[#a8ce2c] transition-colors duration-200 ${
+                      isActive ? "bg-[#8bb500]" : ""
+                    }`
+                  }
+                >
+                  PRODUCTS
+                </NavLink>
+                <NavLink
+                  to="/Quality"
+                  className={({ isActive }) =>
+                    `rounded-md px-3 py-2 text-xs text-gray-50 hover:bg-[#a8ce2c]  transition-colors duration-200 ${
+                      isActive ? "bg-[#8bb500]" : ""
+                    }`
+                  }
+                >
+                  QUALITY ASSURANCE
+                </NavLink>
+                <NavLink
+                  to="/connect"
+                  className={({ isActive }) =>
+                    `rounded-md px-3 py-2 text-xs text-gray-50 hover:bg-[#a8ce2c]  transition-colors duration-200 ${
+                      isActive ? "bg-[#8bb500]" : ""
+                    }`
+                  }
+                >
+                  CONTACT US
+                </NavLink>
               </div>
             </div>
-
           </div>
 
-
-
-          <div className="absolute inset-y-0 right-0  flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
-
-            <SearchIcon onClick={''} sx={{ color: 'white', cursor: 'pointer' }} />
-
-          
-
-
+          {/* Search Icon */}
+          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <SearchIcon onClick={() => {}} sx={{ color: 'white', cursor: 'pointer' }} />
           </div>
         </div>
       </div>
@@ -90,10 +118,56 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="sm:hidden bg-white/80 backdrop-blur-md shadow-md border-b border-gray-200" id="mobile-menu">
           <div className="space-y-1 px-2 pt-2 pb-3">
-            <a href="#" className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Dashboard</a>
-            <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-200">Team</a>
-            <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-200">Projects</a>
-            <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-200">Calendar</a>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `block rounded-md px-3 py-2 text-base font-medium ${
+                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
+                }`
+              }
+            >
+              HOME
+            </NavLink>
+            <NavLink
+              to="/aboutus"
+              className={({ isActive }) =>
+                `block rounded-md px-3 py-2 text-base font-medium ${
+                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
+                }`
+              }
+            >
+              ABOUT
+            </NavLink>
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                `block rounded-md px-3 py-2 text-base font-medium ${
+                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
+                }`
+              }
+            >
+              PRODUCTS
+            </NavLink>
+            <NavLink
+              to="quality"
+              className={({ isActive }) =>
+                `block rounded-md px-3 py-2 text-base font-medium ${
+                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
+                }`
+              }
+            >
+              QUALITY ASSURANCE
+            </NavLink>
+            <NavLink
+              to="/connect"
+              className={({ isActive }) =>
+                `block rounded-md px-3 py-2 text-base font-medium ${
+                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
+                }`
+              }
+            >
+              CONTACT US
+            </NavLink>
           </div>
         </div>
       )}

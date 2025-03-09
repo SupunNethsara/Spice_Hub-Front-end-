@@ -8,7 +8,13 @@ import History from "./Othercomponents/AboutUs/Navigate_components/History";
 import C_message from "./Othercomponents/AboutUs/Navigate_components/C_message";
 import Directorboard from "./Othercomponents/AboutUs/Navigate_components/Directorboard";
 import Distribution from "./Othercomponents/AboutUs/Navigate_components/Distribution";
-import Q_Assurance from "./Othercomponents/AboutUs/Navigate_components/Q_Assurance";
+import ContactUS from "./Othercomponents/ContactUs/ContactUS";
+import Q_main from "./Othercomponents/Quality/Q_main";
+import Q_Controlling from "./Othercomponents/Quality/NavigateComponents/Q_Controlling";
+import Q_Assurance from "./Othercomponents/Quality/NavigateComponents/Q_Assurance";
+
+
+
 
 export default function Routing_main() {
   return (
@@ -21,9 +27,16 @@ export default function Routing_main() {
           <Route path="cmessage" element={<C_message />} /> 
           <Route path="directorboard" element={<Directorboard />} /> 
           <Route path="distribution" element={<Distribution />} /> 
-          <Route path="qa" element={<Q_Assurance />} /> 
+     
+     
         </Route>
         <Route path="/products" element={<Products />} />
+        <Route path="/Quality" element={<Q_main />} >
+        <Route index element={< Q_Controlling/>} />
+        <Route path="quality_A" element={<Q_Assurance/>}/>
+        
+        </Route>
+        <Route path ='/connect' element={<ContactUS/>}/>
       </Routes>
     </div>
   );

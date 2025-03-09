@@ -12,7 +12,7 @@ function App() {
     <>
       <Navbar />
       <Routing_main />
-   <Footer />   
+      <Footer />
     </>
   )
 }
