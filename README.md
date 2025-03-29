@@ -1,8 +1,32 @@
-# React + Vite
+# 🌶 Spices Hub - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Overview  
+This is the React-based frontend for the Spices Hub e-commerce platform. It provides a user-friendly interface for browsing spices, managing products (admin), and handling orders.
 
-Currently, two official plugins are available:
+## 🚀 Features  
+- ✅ User authentication (Login/Register)  
+- ✅ Product browsing and filtering (not Completed) 
+- ✅ Shopping cart functionality (Not Completed) 
+- ✅ Order placement and tracking (Not added to yet) 
+- ✅ Admin dashboard for product management  
+- ✅ Responsive design for all devices  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack  
+- *Framework:* React.js  
+- *State Management:* Context API
+- *Routing:* React Router  
+- *UI Components:* Flowbits
+- *API Client:* Axios  
+- *Authentication:* JWT  
+
+## 🔧 Installation  
+
+### Prerequisites
+- Node.js (v14 or later)
+- npm or yarn
+- Backend API running (Laravel backend)
+
+### Setup Instructions
+1. Clone the repository
+```sh
+git clone https://github.com/SupunNethsara/Spice_Hub-Front-end-.git
