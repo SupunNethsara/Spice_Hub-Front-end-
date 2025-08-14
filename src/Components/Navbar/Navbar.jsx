@@ -1,176 +1,128 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import { NavLink, Link } from "react-router"; // Corrected import
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navItems = [
+    { name: "HOME", path: "/" },
+    { name: "ABOUT", path: "/aboutus" },
+    { name: "PRODUCTS", path: "/products" },
+    { name: "QUALITY", path: "/quality" },
+    { name: "CONTACT", path: "/connect" }
+  ];
 
   return (
-    <nav className="bg-black/60 shadow-md border-b fixed top-0 left-0 w-full z-50 ">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between w-full">
-
-          {/* Mobile Menu Button */}
-          <div className="inset-y-0 left-0 flex items-center sm:hidden">
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/50 backdrop-blur-md py-2 shadow-lg' : 'bg-black/20 py-3'}`}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex-shrink-0">
+            <img
+              className="h-28 w-auto transition-all duration-300 hover:scale-105"
+              src="/images/Main-logo.png"
+              alt="Company Logo"
+            />
+          </div>
+          <div className="hidden md:flex items-center space-x-1">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                className={({ isActive }) =>
+                  `px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${isActive
+                    ? 'bg-red-500 text-white shadow-md'
+                    : 'text-gray-200 hover:bg-white/10 hover:text-white'
+                  }`
+                }
+              >
+                {item.name}
+              </NavLink>
+            ))}
+          </div>
+          <div className="flex items-center space-x-3">
+           <div className="hidden md:flex items-center space-x-2">
+              <NavLink
+                to="/login"
+                className="px-4 py-2 text-sm font-medium text-white rounded-full transition-all duration-300 hover:bg-white/10"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-full transition-all duration-300 hover:bg-red-600 shadow-md"
+              >
+                Sign Up
+              </NavLink>
+            </div>
             <button
-              type="button"
-              className="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:outline-none"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-gray-200 hover:text-white focus:outline-none transition-colors"
+              aria-label="Search"
             >
-              <span className="sr-only">Open main menu</span>
+              <SearchIcon className="h-5 w-5" />
+            </button>
+
+            <button
+              className="md:hidden p-2 text-gray-200 hover:text-white focus:outline-none transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Menu"
+            >
               {isMobileMenuOpen ? (
-                <svg
-                  className="size-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <CloseIcon className="h-6 w-6" />
               ) : (
-                <svg
-                  className="size-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
+                <MenuIcon className="h-6 w-6" />
               )}
             </button>
           </div>
+        </div>
+      </div>
+      <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="px-4 pt-2 pb-4 space-y-1 bg-black/95 backdrop-blur-lg border-t border-gray-800">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `block px-4 py-3 rounded-lg text-base font-medium transition-colors ${isActive
+                  ? 'bg-red-500 text-white'
+                  : 'text-gray-300 hover:bg-white/10'
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
+          <div className="pt-2 space-y-2">
+            <NavLink
+              to="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block px-4 py-3 rounded-lg text-base font-medium text-white bg-red-500 hover:bg-red-600 transition-colors"
+            >
+              Login
+            </NavLink>
 
-          {/* Logo */}
-          <div className="flex shrink-0 items-center">
-            <img className="h-24 w-auto" src="/images/Main-logo.png" alt="Logo" />
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="flex flex-1 items-center justify-end sm:justify-end">
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4 list-none">
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    `rounded-md px-3 py-2 text-xs text-white hover:bg-[#a8ce2c]  transition-colors duration-200 ${
-                      isActive ? "bg-[#8bb500]" : ""
-                    }`
-                  }
-                >
-                  HOME
-                </NavLink>
-                <NavLink
-                  to="/aboutus"
-                  className={({ isActive }) =>
-                    `rounded-md px-3 py-2 text-xs text-gray-50 hover:bg-[#a8ce2c] transition-colors duration-200 ${
-                      isActive ? "bg-[#8bb500]" : ""
-                    }`
-                  }
-                >
-                  ABOUT
-                </NavLink>
-                <NavLink
-                  to="/products"
-                  className={({ isActive }) =>
-                    `rounded-md px-3 py-2 text-xs text-gray-50 hover:bg-[#a8ce2c] transition-colors duration-200 ${
-                      isActive ? "bg-[#8bb500]" : ""
-                    }`
-                  }
-                >
-                  PRODUCTS
-                </NavLink>
-                <NavLink
-                  to="/Quality"
-                  className={({ isActive }) =>
-                    `rounded-md px-3 py-2 text-xs text-gray-50 hover:bg-[#a8ce2c]  transition-colors duration-200 ${
-                      isActive ? "bg-[#8bb500]" : ""
-                    }`
-                  }
-                >
-                  QUALITY ASSURANCE
-                </NavLink>
-                <NavLink
-                  to="/connect"
-                  className={({ isActive }) =>
-                    `rounded-md px-3 py-2 text-xs text-gray-50 hover:bg-[#a8ce2c]  transition-colors duration-200 ${
-                      isActive ? "bg-[#8bb500]" : ""
-                    }`
-                  }
-                >
-                  CONTACT US
-                </NavLink>
-              </div>
-            </div>
-          </div>
-
-          {/* Search Icon */}
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <SearchIcon onClick={() => {}} sx={{ color: 'white', cursor: 'pointer' }} />
+            <NavLink
+              to="/signup"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block px-4 py-3 rounded-lg text-base font-medium text-white bg-red-700 hover:bg-red-800 transition-colors"
+            >
+              Sign Up
+            </NavLink>
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="sm:hidden bg-white/80 backdrop-blur-md shadow-md border-b border-gray-200" id="mobile-menu">
-          <div className="space-y-1 px-2 pt-2 pb-3">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `block rounded-md px-3 py-2 text-base font-medium ${
-                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
-                }`
-              }
-            >
-              HOME
-            </NavLink>
-            <NavLink
-              to="/aboutus"
-              className={({ isActive }) =>
-                `block rounded-md px-3 py-2 text-base font-medium ${
-                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
-                }`
-              }
-            >
-              ABOUT
-            </NavLink>
-            <NavLink
-              to="/products"
-              className={({ isActive }) =>
-                `block rounded-md px-3 py-2 text-base font-medium ${
-                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
-                }`
-              }
-            >
-              PRODUCTS
-            </NavLink>
-            <NavLink
-              to="quality"
-              className={({ isActive }) =>
-                `block rounded-md px-3 py-2 text-base font-medium ${
-                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
-                }`
-              }
-            >
-              QUALITY ASSURANCE
-            </NavLink>
-            <NavLink
-              to="/connect"
-              className={({ isActive }) =>
-                `block rounded-md px-3 py-2 text-base font-medium ${
-                  isActive ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-200"
-                }`
-              }
-            >
-              CONTACT US
-            </NavLink>
-          </div>
-        </div>
-      )}
     </nav>
   );
 }

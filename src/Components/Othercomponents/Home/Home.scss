@@ -14,17 +14,7 @@
   font-family: "Abel", serif;
   letter-spacing: 4px;
 }
-.vedio{
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)),
-  url('/images/1280982.jpg');
 
-  h1{
-    font-family: "Poppins", serif;
-    color: rgb(255, 255, 255);
-    font-weight: 400;
-    letter-spacing: 6px;
-  }
-}
 .footer_bg{
   background: linear-gradient(rgba(0, 0, 0, 7), rgba(0, 0, 0, 0.7)),
   url('/images/tamanna-rumee-dqVPEGkuR_U-unsplash .jpg');
@@ -35,7 +25,6 @@
   font-family: "Lora", serif;
 }
 //////Home Component
-
 .home_main {
   width: 100%;
   height: auto;
@@ -55,24 +44,15 @@
   background-position: center;
 }
 
-
-
-
-
-
-  .motion_sec {
+.motion_sec {
   font-family: "Montserrat", serif;
     color: rgb(255, 255, 255);
     font-weight: 400;
-    // font-size: 60px;
+
     letter-spacing: 6px;
     
-
-  }
-
-
-
-.img_section {
+}
+  .img_section {
   width: 50%;
 
   img {
