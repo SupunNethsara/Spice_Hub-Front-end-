@@ -6,14 +6,13 @@ export default function Main_category() {
 
             <section class=" main_cat_text bg-white ">
                 <div class="gap-5 items-center py-4 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 ">
-                    <div class="font-light text-gray-700 sm:text-lg ">
-                        <h2 class="mb-4 text-4xl  font-bold text-gray-900 ">We are passionate about spices</h2>
-                        <p style={{ fontFamily: "Poppins, serif" }} className="mb-4 text-sm font-medium text-gray-500  ">
-                            Sourcing, blending, and delivering the finest flavors from around the world.
-                            From farm to kitchen, we ensure quality, authenticity, and rich aromas in every pack.
+                    <div class="font-light text-gray-700 sm:text-lg top-0 ">
+                        <h2 class="mb-4 text-4xl  font-bold text-gray-700 ">We are passionate about spices</h2>
+                        <p style={{ fontFamily: "Poppins, serif" }} className="mb-4 text-sm font-normal text-gray-400  ">
+                        Sourcing, blending, and delivering the finest flavors from around the world. From farm to kitchen, we ensure quality, authenticity, and rich aromas in every pack. Our commitment to excellence means every step of the process is carefully curated, bringing you the very best nature has to offer. From farm to kitchen, we ensure quality, authenticity, and rich aromas in every pack. Sourcing, blending, and delivering the finest flavors from around the world. From farm to kitchen, we ensure quality, authenticity, and rich aromas in every pack. Our dedication to crafting exceptional flavors is unmatched, ensuring every product reflects the richness of its origin. Sourcing, blending, and delivering the finest flavors from around the world. From farm to kitchen, we ensure quality, authenticity, and rich aromas in every pack.
                         </p>
 
-                        <p className='text-sm font-medium text-gray-500'>Whether you're a home cook or a large-scale distributor, we provide the freshest, most vibrant spices to enhance your culinary creations. Small enough to offer personalized service, yet big enough to meet all your spice needs with efficiency and reliability.
+                        <p className='text-sm font-normal text-gray-400'>Whether you're a home cook or a large-scale distributor, we provide the freshest, most vibrant spices to enhance your culinary creations. Small enough to offer personalized service, yet big enough to meet all your spice needs with efficiency and reliability.
 
                             Let’s spice up the world, one dish at a time! 🌿✨</p>
                     </div>
