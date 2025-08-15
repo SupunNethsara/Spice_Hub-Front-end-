@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import './Home.scss';
-
 export function Video() {
   return (
     <section className="relative py-16 px-4 sm:py-24 overflow-hidden">
@@ -72,3 +71,4 @@ export function Video() {
     </section>
   );
 }
+export default Video;

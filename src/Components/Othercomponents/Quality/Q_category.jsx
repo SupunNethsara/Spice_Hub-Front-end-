@@ -11,7 +11,7 @@ const Q_category = () => {
   ];
 
   return (
-    <div className="w-full bg-white shadow-md rounded-lg p-5">
+    <div className="w-full bg-white shadow-md rounded-lg p-5 container mx-auto">
 
       <div className="border-b border-gray-100 ">
         <ul className="flex flex-wrap">

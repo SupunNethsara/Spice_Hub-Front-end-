@@ -160,7 +160,8 @@ export default function ProductDetails({ product, onBackClick }) {
                                         </button>
                                     </div>
                                     <div className="mt-4">
-                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
