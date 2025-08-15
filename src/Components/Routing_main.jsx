@@ -12,31 +12,30 @@ import ContactUS from "./Othercomponents/ContactUs/ContactUS";
 import Q_main from "./Othercomponents/Quality/Q_main";
 import Q_Controlling from "./Othercomponents/Quality/NavigateComponents/Q_Controlling";
 import Q_Assurance from "./Othercomponents/Quality/NavigateComponents/Q_Assurance";
-
-
+import Dashbaord from "./Registered Users Process/Dashbaord";
 
 
 export default function Routing_main() {
   return (
     <div className="m-0 p-0 overflow-hidden">
       <Routes>
+        <Route path="/dashbaord" element={<Dashbaord />} >
+         
+        </Route>
         <Route index element={<Home />} />
         <Route path="/aboutus" element={<About />}>
           <Route index element={<Mission />} />
-          <Route path="history" element={<History />} /> 
-          <Route path="cmessage" element={<C_message />} /> 
-          <Route path="directorboard" element={<Directorboard />} /> 
-          <Route path="distribution" element={<Distribution />} /> 
-     
-     
+          <Route path="history" element={<History />} />
+          <Route path="cmessage" element={<C_message />} />
+          <Route path="directorboard" element={<Directorboard />} />
+          <Route path="distribution" element={<Distribution />} />
         </Route>
         <Route path="/products" element={<Products />} />
         <Route path="/Quality" element={<Q_main />} >
-        <Route index element={< Q_Controlling/>} />
-        <Route path="quality_A" element={<Q_Assurance/>}/>
-        
+          <Route index element={< Q_Controlling />} />
+          <Route path="quality_A" element={<Q_Assurance />} />
         </Route>
-        <Route path ='/connect' element={<ContactUS/>}/>
+        <Route path='/connect' element={<ContactUS />} />
       </Routes>
     </div>
   );

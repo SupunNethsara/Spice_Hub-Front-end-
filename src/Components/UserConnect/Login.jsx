@@ -1,22 +1,33 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useContext, useState } from 'react';
 import { X } from 'react-feather';
+import { UserContext } from '../Use Context/useProvider';
+import { useNavigate } from 'react-router';
 
 const Login = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
     try {
       const response = await axios.post('http://localhost:8000/api/user-Login', {
         email,
         password
       });
+      if (response.status === 200) {
+        setUser(response.data.user);
+      }
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
+      navigate('/dashbaord');
       console.log('Login success:', response.data);
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
@@ -26,7 +37,7 @@ const Login = ({ isOpen, onClose }) => {
     }
   };
 
-if (!isOpen) return null;
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 ">

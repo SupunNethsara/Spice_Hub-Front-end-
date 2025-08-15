@@ -5,8 +5,8 @@ import About_category from './About_category'
 export default function About() {
   return (
     <div>
-<About_head/>
-<About_category/>
+      <About_head />
+      <About_category />
     </div>
   )
 }
