@@ -23,12 +23,11 @@ const Login = ({ isOpen, onClose }) => {
       });
       if (response.status === 200) {
         setUser(response.data.user);
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+        }
+        navigate('/dashbaord');
       }
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-      }
-      navigate('/dashbaord');
-      console.log('Login success:', response.data);
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
     } finally {

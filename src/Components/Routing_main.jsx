@@ -13,6 +13,7 @@ import Q_main from "./Othercomponents/Quality/Q_main";
 import Q_Controlling from "./Othercomponents/Quality/NavigateComponents/Q_Controlling";
 import Q_Assurance from "./Othercomponents/Quality/NavigateComponents/Q_Assurance";
 import Dashbaord from "./Registered Users Process/Dashbaord";
+import AllItems from "./Registered Users Process/Routing Components/All";
 
 
 export default function Routing_main() {
@@ -20,7 +21,8 @@ export default function Routing_main() {
     <div className="m-0 p-0 overflow-hidden">
       <Routes>
         <Route path="/dashbaord" element={<Dashbaord />} >
-         
+         <Route index element={<AllItems/>} />
+         <Route path="all" element={<AllItems />} />
         </Route>
         <Route index element={<Home />} />
         <Route path="/aboutus" element={<About />}>
