@@ -3,6 +3,7 @@ import Navbar from './Components/Navbar/Navbar'
 import Routing_main from './Components/Routing_main'
 import Footer from './Components/Othercomponents/Home/Footer'
 import { useLocation } from 'react-router'
+import { AuthProvider } from './Components/Use Context/AuthContext'
 
 function App() {
   const location = useLocation();
@@ -10,9 +11,11 @@ function App() {
   const shouldHide = hideLayout.includes(location.pathname);
   return (
     <>
-      {!shouldHide && <Navbar />}
-      <Routing_main />
-      {!shouldHide && <Footer />}
+      <AuthProvider>
+        {!shouldHide && <Navbar />}
+        <Routing_main />
+        {!shouldHide && <Footer />}
+      </AuthProvider>
     </>
   )
 }

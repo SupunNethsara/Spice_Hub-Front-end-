@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from "react-router-dom";
 import Login from "../UserConnect/Login";
 import Registration from "../UserConnect/Registration";
+import { AuthContext } from "../Use Context/AuthContext";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isloginmodal, setIsloginmodal] = useState(false);
-  const [isregistermodal, setIsregistermodal] = useState(false);
+  const { 
+    isloginmodal, 
+    setIsloginmodal, 
+    isregistermodal, 
+    setIsregistermodal 
+  } = useContext(AuthContext);
 
 
 
