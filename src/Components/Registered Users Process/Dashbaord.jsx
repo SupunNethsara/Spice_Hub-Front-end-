@@ -4,12 +4,20 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { FiSearch, FiShoppingCart, FiHeart, FiUser } from 'react-icons/fi';
 import { BsFire } from 'react-icons/bs';
 import { UserContext } from '../Use Context/useProvider';
+import axios from 'axios';
+import { Logout } from '@mui/icons-material';
+import LogoutModal from './Routing Components/LogoutModal';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const { user, setUser } = useContext(UserContext);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const handleLogoutClick = () => {
+    setIsLogoutModalOpen(!isLogoutModalOpen);
+  }
   const categories = [
     { name: 'All', path: 'all' },
     { name: 'Spices', path: '' },
@@ -18,7 +26,6 @@ const Dashboard = () => {
     { name: 'Seasonings', path: '' },
     { name: 'Specialty', path: '' }
   ];
-
 
   const getActiveCategory = () => {
     const currentPath = location.pathname;
@@ -30,6 +37,25 @@ const Dashboard = () => {
 
   const activeCategory = getActiveCategory();
 
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/user-Logout', {}, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/';
+
+      return response.data;
+    } catch (error) {
+      console.error('Logout failed:', error);
+      throw error;
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-red-600 text-white shadow-md">
@@ -81,6 +107,7 @@ const Dashboard = () => {
                 <span className="absolute -top-2 -right-2 bg-white text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">5</span>
               </button>
               <button
+                onClick={() => handleLogoutClick()}
                 className="flex items-center justify-center p-2 text-white  hover:text-gray-100 transition-colors group relative"
                 aria-label="Logout"
               ><FiPower className="w-5 h-5" />
@@ -126,8 +153,14 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
+      {isLogoutModalOpen && (
+        <LogoutModal
+          onClose={() => setIsLogoutModalOpen(false)}
+          onLogout={handleLogout}
+        />
+      )}
       <main className="container mx-auto px-4 py-6">
+
         <Outlet />
       </main>
 
