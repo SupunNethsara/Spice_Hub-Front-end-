@@ -30,9 +30,8 @@ function AllItems() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {[...Array(1)].map((_, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              {/* Product Image */}
+        
+            <div  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative">
                 <img
                   src="https://via.placeholder.com/200x200?text=Product"
@@ -72,7 +71,7 @@ function AllItems() {
                 </button>
               </div>
             </div>
-          ))}
+        
         </div>
       </main>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { StarIcon, HeartIcon, ShoppingCartIcon } from '@heroicons/react/24/solid';
+import { BsStarFill, BsTruck, BsArrowLeft } from 'react-icons/bs';
+import { FiHeart } from 'react-icons/fi';
 
 export default function ProductDetails({ product, onBackClick }) {
     const getFirstImageUrl = () => {
@@ -12,6 +13,7 @@ export default function ProductDetails({ product, onBackClick }) {
             return null;
         }
     };
+    
     const getAllImageUrls = () => {
         try {
             if (!product.Product_image) return [];
@@ -25,26 +27,28 @@ export default function ProductDetails({ product, onBackClick }) {
 
     const mainImageUrl = getFirstImageUrl();
     const allImageUrls = getAllImageUrls();
+    const originalPrice = parseFloat(product.Product_price) * 1.2; 
 
     return (
-        <div className="bg-gray-50 min-h-screen py-12">
+        <div className="bg-gray-50 min-h-screen py-8">
             {product && (
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col lg:flex-row gap-10">
+                    <div className="flex flex-col lg:flex-row gap-8">
+
                         <div className="lg:w-1/2">
-                            <div className="bg-white p-6 rounded-2xl shadow-lg">
+                            <div className="bg-white p-4 rounded-lg shadow-sm">
                                 {mainImageUrl ? (
                                     <img
-                                        className="w-full h-auto rounded-xl object-cover aspect-square"
+                                        className="w-full h-auto rounded-lg object-cover aspect-square"
                                         src={mainImageUrl}
                                         alt={product.product_name}
                                         onError={(e) => {
                                             e.target.onerror = null;
-                                            e.target.src = '/path/to/placeholder-image.jpg';
+                                            e.target.src = 'https://via.placeholder.com/600x600?text=Product';
                                         }}
                                     />
                                 ) : (
-                                    <div className="w-full aspect-square bg-gray-200 rounded-xl flex items-center justify-center">
+                                    <div className="w-full aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
                                         <span className="text-gray-500">No Image Available</span>
                                     </div>
                                 )}
@@ -56,58 +60,71 @@ export default function ProductDetails({ product, onBackClick }) {
                                                 <img
                                                     src={url}
                                                     alt={`${product.product_name} thumbnail ${i}`}
-                                                    className="w-full h-full object-cover rounded-lg cursor-pointer hover:ring-2 hover:ring-primary-500"
+                                                    className="w-full h-full object-cover rounded-md cursor-pointer hover:ring-2 hover:ring-red-500"
                                                     onError={(e) => {
                                                         e.target.onerror = null;
-                                                        e.target.src = '/path/to/placeholder-thumbnail.jpg';
+                                                        e.target.src = 'https://via.placeholder.com/150x150?text=Thumbnail';
                                                     }}
                                                 />
                                             </div>
                                         ))
                                     ) : (
                                         [1, 2, 3, 4].map((i) => (
-                                            <div key={i} className="w-1/4 h-20 bg-gray-100 rounded-lg"></div>
+                                            <div key={i} className="w-1/4 h-20 bg-gray-100 rounded-md"></div>
                                         ))
                                     )}
                                 </div>
                             </div>
                         </div>
+
                         <div className="lg:w-1/2">
-                            <div className="bg-white p-8 rounded-2xl shadow-lg h-full">
-                                <div>
-                                    <button 
-                                        onClick={onBackClick}
-                                        className="mb-6 text-gray-500 hover:text-gray-700 transition-colors"
-                                    >
-                                        ← Back to products
-                                    </button>
-                                    
-                                    <h1 className="text-3xl font-bold text-gray-900">
-                                        {product.product_name}
-                                        <span className="text-gray-500 ml-2">({product.product_sname})</span>
-                                    </h1>
-                                    
-                                    <div className="flex items-center mt-3">
-                                        <div className="flex">
-                                            {[...Array(5)].map((_, i) => (
-                                                <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
-                                            ))}
-                                        </div>
-                                        <span className="text-sm text-gray-500 ml-2">(5.0) · 345 reviews</span>
+                            <div className="bg-white p-6 rounded-lg shadow-sm h-full">
+                                <button 
+                                    onClick={onBackClick}
+                                    className="mb-4 flex items-center text-gray-600 hover:text-red-600 transition-colors"
+                                >
+                                    <BsArrowLeft className="mr-1" />
+                                    Back to products
+                                </button>
+                                
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h1 className="text-2xl font-bold text-gray-800">
+                                            {product.product_name}
+                                        </h1>
+                                        <p className="text-gray-500">{product.product_sname}</p>
                                     </div>
+                                    <button className="p-2 rounded-full hover:bg-gray-100">
+                                        <FiHeart className="text-gray-600 text-xl" />
+                                    </button>
                                 </div>
-                                <div className="mt-6">
-                                    <p className="text-3xl font-extrabold text-gray-900">
-                                        LKR {product.Product_price.toLocaleString()}
-                                    </p>
-                                    {product.discount && (
-                                        <p className="text-sm text-gray-500 line-through mt-1">
-                                            LKR {(product.Product_price / (1 - product.discount/100)).toLocaleString()}
-                                        </p>
-                                    )}
+                                
+                                <div className="flex items-center mt-2">
+                                    <div className="flex">
+                                        <BsStarFill className="text-yellow-400 mr-1" />
+                                        <BsStarFill className="text-yellow-400 mr-1" />
+                                        <BsStarFill className="text-yellow-400 mr-1" />
+                                        <BsStarFill className="text-yellow-400 mr-1" />
+                                        <BsStarFill className="text-yellow-400 mr-1" />
+                                    </div>
+                                    <span className="text-sm text-gray-500 ml-2">(5.0) · 345 reviews</span>
                                 </div>
 
-                                <div className="mt-8 grid grid-cols-2 gap-4">
+                                <div className="mt-4">
+                                    <p className="text-2xl font-bold text-red-600">
+                                        LKR {product.Product_price.toLocaleString()}
+                                    </p>
+                                    <p className="text-sm text-gray-500 line-through">
+                                        LKR {originalPrice.toFixed(2).toLocaleString()}
+                                    </p>
+                                </div>
+
+                                <div className="flex items-center text-sm text-green-600 mt-2">
+                                    <BsTruck className="mr-1" />
+                                    Free Shipping
+                                </div>
+
+                                <div className="mt-6 grid grid-cols-2 gap-4">
                                     <div>
                                         <p className="text-sm text-gray-500">Category</p>
                                         <p className="font-medium">{product.category}</p>
@@ -128,40 +145,17 @@ export default function ProductDetails({ product, onBackClick }) {
                                     </div>
                                 </div>
 
-                                <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                                    <button className="flex-1 flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                                        <HeartIcon className="h-5 w-5 text-gray-700" />
-                                        <span>Add to favorites</span>
-                                    </button>
-                                    <button className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                                        <ShoppingCartIcon className="h-5 w-5" />
-                                        <span>Add to cart</span>
+                                <div className="mt-8">
+                                    <button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg text-sm font-medium">
+                                        Add to Cart
                                     </button>
                                 </div>
 
-                             
-                                <div className="mt-10">
-                                    <h3 className="text-lg font-medium text-gray-900">Description</h3>
-                                    <p className="mt-4 text-gray-600 whitespace-pre-line">
+                                <div className="mt-8">
+                                    <h3 className="text-lg font-medium text-gray-800">Description</h3>
+                                    <p className="mt-2 text-gray-600 whitespace-pre-line">
                                         {product.Product_description || 'No description available'}
                                     </p>
-                                </div>
-
-                                <div className="mt-10 border-t border-gray-200 pt-6">
-                                    <div className="flex space-x-8">
-                                        <button className="text-sm font-medium text-gray-900 border-b-2 border-indigo-600 pb-2">
-                                            Specifications
-                                        </button>
-                                        <button className="text-sm font-medium text-gray-500 hover:text-gray-700 pb-2">
-                                            Reviews
-                                        </button>
-                                        <button className="text-sm font-medium text-gray-500 hover:text-gray-700 pb-2">
-                                            Shipping
-                                        </button>
-                                    </div>
-                                    <div className="mt-4">
-
-                                    </div>
                                 </div>
                             </div>
                         </div>

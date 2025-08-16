@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { FiPower } from 'react-icons/fi';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { FiSearch, FiShoppingCart, FiHeart, FiUser } from 'react-icons/fi';
 import { BsFire } from 'react-icons/bs';
@@ -21,7 +22,7 @@ const Dashboard = () => {
 
   const getActiveCategory = () => {
     const currentPath = location.pathname;
-    const matchedCategory = categories.find(cat => 
+    const matchedCategory = categories.find(cat =>
       currentPath === cat.path
     );
     return matchedCategory ? matchedCategory.name : 'All';
@@ -31,11 +32,10 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-red-600 text-white shadow-md">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div 
+            <div
               className="flex items-center cursor-pointer"
               onClick={() => navigate('/dashboard')}
             >
@@ -64,28 +64,33 @@ const Dashboard = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-             <button className="hidden md:flex items-center space-x-1 hover:text-red-200">
+              <button className="hidden md:flex items-center space-x-1 hover:text-red-200">
                 <FiUser />
                 <span>{user?.name || 'Account'}</span>
               </button>
-              <button 
+              <button
                 className="relative hover:text-red-200"
-                onClick={() => navigate('/wishlist')}
               >
                 <FiHeart />
                 <span className="absolute -top-2 -right-2 bg-white text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">3</span>
               </button>
-              <button 
+              <button
                 className="relative hover:text-red-200"
-                onClick={() => navigate('/cart')}
               >
                 <FiShoppingCart />
                 <span className="absolute -top-2 -right-2 bg-white text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">5</span>
               </button>
+              <button
+                className="flex items-center justify-center p-2 text-white  hover:text-gray-100 transition-colors group relative"
+                aria-label="Logout"
+              ><FiPower className="w-5 h-5" />
+                <span className="absolute top-0 right-0 flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                </span>
+              </button>
             </div>
           </div>
 
-          {/* Mobile Search */}
           <div className="mt-3 md:hidden">
             <div className="relative">
               <input
@@ -103,18 +108,16 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Category Navigation */}
       <div className="bg-white shadow-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-3 overflow-x-auto">
           <div className="flex space-x-6">
             {categories.map((category) => (
               <button
                 key={category.name}
-                className={`whitespace-nowrap px-3 py-1 rounded-full ${
-                  activeCategory === category.name 
-                    ? 'bg-red-600 text-white' 
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
+                className={`whitespace-nowrap px-3 py-1 rounded-full ${activeCategory === category.name
+                  ? 'bg-red-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 onClick={() => navigate(category.path)}
               >
                 {category.name}
@@ -124,7 +127,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Main Content Area - Outlet for child routes */}
       <main className="container mx-auto px-4 py-6">
         <Outlet />
       </main>
