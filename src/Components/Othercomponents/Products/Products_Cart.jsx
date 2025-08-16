@@ -64,10 +64,6 @@ export default function Products_Cart() {
 
 
                     <Product_card />
-
-                    <div class="w-full text-center">
-                        <button type="button" class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 ">Show more</button>
-                    </div>
                 </div>
 
 
