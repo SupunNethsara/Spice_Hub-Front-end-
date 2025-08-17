@@ -56,6 +56,11 @@ const Dashboard = () => {
       throw error;
     }
   };
+
+  if(!localStorage.getItem('token')) {
+    window.location.href = '/';
+    return null; 
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-red-600 text-white shadow-md">

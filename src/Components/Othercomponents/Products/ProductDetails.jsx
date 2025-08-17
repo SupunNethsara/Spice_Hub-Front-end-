@@ -1,4 +1,4 @@
-import React ,{useState} from 'react';
+import React, { useState } from 'react';
 import { BsStarFill, BsTruck, BsArrowLeft } from 'react-icons/bs';
 import { FiHeart } from 'react-icons/fi';
 import { XMarkIcon } from '@heroicons/react/24/solid';
@@ -18,7 +18,7 @@ export default function ProductDetails({ product, onBackClick }) {
       return null;
     }
   };
-  
+
   const getAllImageUrls = () => {
     try {
       if (!product.Product_image) return [];
@@ -35,20 +35,17 @@ export default function ProductDetails({ product, onBackClick }) {
       setShowAuthModal(true);
       return;
     }
-    // Logic to add to cart for authenticated users
     console.log('Adding to cart:', product);
   };
 
   const handleLogin = () => {
     setShowAuthModal(false);
-    // In a real app, this would redirect to login page
     console.log('Redirect to login');
     setIsAuthenticated(true);
   };
 
   const handleRegister = () => {
     setShowAuthModal(false);
-    // In a real app, this would redirect to register page
     console.log('Redirect to register');
     setIsAuthenticated(true);
   };
@@ -59,16 +56,15 @@ export default function ProductDetails({ product, onBackClick }) {
 
   return (
     <div className="bg-gray-50 min-h-screen py-8">
-      <AuthModal 
+      <AuthModal
         show={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         onLoginClick={handleLogin}
         onRegisterClick={handleRegister}
       />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Image Gallery */}
           <div className="lg:w-1/2">
             <div className="bg-white p-4 rounded-lg shadow-sm">
               {mainImageUrl ? (
@@ -86,7 +82,7 @@ export default function ProductDetails({ product, onBackClick }) {
                   <span className="text-gray-500">No Image Available</span>
                 </div>
               )}
-              
+
               <div className="flex gap-2 mt-4">
                 {allImageUrls.length > 0 ? (
                   allImageUrls.slice(0, 4).map((url, i) => (
@@ -111,17 +107,16 @@ export default function ProductDetails({ product, onBackClick }) {
             </div>
           </div>
 
-          {/* Product Info */}
           <div className="lg:w-1/2">
             <div className="bg-white p-6 rounded-lg shadow-sm h-full">
-              <button 
+              <button
                 onClick={onBackClick}
                 className="mb-4 flex items-center text-gray-600 hover:text-red-600 transition-colors"
               >
                 <BsArrowLeft className="mr-1" />
                 Back to products
               </button>
-              
+
               <div className="flex justify-between items-start">
                 <div>
                   <h1 className="text-2xl font-bold text-gray-800">
@@ -133,7 +128,7 @@ export default function ProductDetails({ product, onBackClick }) {
                   <FiHeart className="text-gray-600 text-xl" />
                 </button>
               </div>
-              
+
               <div className="flex items-center mt-2">
                 <div className="flex">
                   <BsStarFill className="text-yellow-400 mr-1" />
@@ -181,7 +176,7 @@ export default function ProductDetails({ product, onBackClick }) {
               </div>
 
               <div className="mt-8">
-                <button 
+                <button
                   onClick={handleAddToCart}
                   className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg text-sm font-medium"
                 >

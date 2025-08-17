@@ -51,7 +51,7 @@ export default function ProductCard() {
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {products.map(product => {
                         const imageUrl = getFirstImageUrl(product);
-                        const originalPrice = parseFloat(product.Product_price) * 1.2; // Adding 20% to show discount
+                        const originalPrice = parseFloat(product.Product_price) * 1.2; 
                         
                         return (
                             <div key={product.id} className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm">
