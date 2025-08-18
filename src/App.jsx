@@ -7,8 +7,8 @@ import { AuthProvider } from './Components/Use Context/AuthContext'
 
 function App() {
   const location = useLocation();
-  const hideLayout = ['/dashbaord'];
-  const shouldHide = hideLayout.includes(location.pathname);
+const hideLayout = ['/dashbaord', '/userdetails', '/login', '/register'];
+const shouldHide = hideLayout.some(path => location.pathname.startsWith(path));
   return (
     <>
       <AuthProvider>

@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { FiPower } from 'react-icons/fi';
+import React, { useContext, useEffect, useState } from 'react';
+import { FiPower, FiSettings } from 'react-icons/fi';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { FiSearch, FiShoppingCart, FiHeart, FiUser } from 'react-icons/fi';
 import { BsFire } from 'react-icons/bs';
@@ -7,6 +7,7 @@ import { UserContext } from '../Use Context/useProvider';
 import axios from 'axios';
 import { Logout } from '@mui/icons-material';
 import LogoutModal from './Routing Components/LogoutModal';
+import IncompleteProfileModal from '../UserConnect/IncompleteProfileModal';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -14,10 +15,22 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { user, setUser } = useContext(UserContext);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-
-  const handleLogoutClick = () => {
+ const [showIncompleteProfileModal, setShowIncompleteProfileModal] = useState(false);
+  
+ const handleLogoutClick = () => {
     setIsLogoutModalOpen(!isLogoutModalOpen);
   }
+
+useEffect(() => {
+  if (user && user.details && !user.details_complete) {
+    const timer = setTimeout(() => {
+      setShowIncompleteProfileModal(true);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }
+}, [user]);
+
   const categories = [
     { name: 'All', path: 'all' },
     { name: 'Spices', path: '' },
@@ -102,9 +115,8 @@ const Dashboard = () => {
               <button
                 className="relative hover:text-red-200"
               >
-                <FiHeart />
-                <span className="absolute -top-2 -right-2 bg-white text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">3</span>
-              </button>
+                <FiSettings />
+               </button>
               <button
                 className="relative hover:text-red-200"
               >
@@ -163,6 +175,9 @@ const Dashboard = () => {
           onClose={() => setIsLogoutModalOpen(false)}
           onLogout={handleLogout}
         />
+      )}
+        {showIncompleteProfileModal && (
+        <IncompleteProfileModal onClose={() => setShowIncompleteProfileModal(false)} />
       )}
       <main className="container mx-auto px-4 py-6">
 

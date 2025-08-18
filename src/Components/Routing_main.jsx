@@ -14,6 +14,7 @@ import Q_Controlling from "./Othercomponents/Quality/NavigateComponents/Q_Contro
 import Q_Assurance from "./Othercomponents/Quality/NavigateComponents/Q_Assurance";
 import Dashbaord from "./Registered Users Process/Dashbaord";
 import AllItems from "./Registered Users Process/Routing Components/All";
+import UserDetailsForm from "./Registered Users Process/UserDetailsForm";
 
 
 export default function Routing_main() {
@@ -23,6 +24,7 @@ export default function Routing_main() {
         <Route path="/dashbaord" element={<Dashbaord />} >
          <Route index element={<AllItems/>} />
          <Route path="all" element={<AllItems />} />
+         <Route path="userdetails" element={<UserDetailsForm />} />
         </Route>
         <Route index element={<Home />} />
         <Route path="/aboutus" element={<About />}>
