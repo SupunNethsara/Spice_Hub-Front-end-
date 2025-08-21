@@ -50,7 +50,7 @@ function UserDetailsForm() {
 
     try {
       const response = await axios.put(
-        'http://localhost:8000/api/user/details',
+        'http://localhost:8000/api/user/updateDetails',
         formData,
         {
           headers: {
@@ -60,7 +60,7 @@ function UserDetailsForm() {
         }
       );
 
-      navigate('/dashboard');
+      navigate('/dashbaord');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to save details. Please try again.');
       console.error('Error saving details:', err);
@@ -74,7 +74,6 @@ function UserDetailsForm() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
           <div className="md:flex">
-            {/* Sidebar with user info */}
             <div className="md:w-1/3 bg-gradient-to-b from-red-600 to-red-700 p-8 text-white">
               <div className="flex flex-col items-center">
                 <div className="h-24 w-24 rounded-full bg-white bg-opacity-20 flex items-center justify-center mb-4">
@@ -110,7 +109,6 @@ function UserDetailsForm() {
               </div>
             </div>
 
-            {/* Main form */}
             <div className="md:w-2/3 p-8">
               <h3 className="text-2xl font-bold text-gray-800 mb-6">Shipping Information</h3>
               

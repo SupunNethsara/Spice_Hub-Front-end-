@@ -15,21 +15,23 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { user, setUser } = useContext(UserContext);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
- const [showIncompleteProfileModal, setShowIncompleteProfileModal] = useState(false);
+  const [showIncompleteProfileModal, setShowIncompleteProfileModal] = useState(false);
+  const [hasCheckedProfile, setHasCheckedProfile] = useState(false);
   
- const handleLogoutClick = () => {
+  const handleLogoutClick = () => {
     setIsLogoutModalOpen(!isLogoutModalOpen);
   }
 
-useEffect(() => {
-  if (user && user.details && !user.details_complete) {
-    const timer = setTimeout(() => {
-      setShowIncompleteProfileModal(true);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }
-}, [user]);
+  useEffect(() => {
+    if (user && user.details && !user.details_complete && !hasCheckedProfile) {
+      const timer = setTimeout(() => {
+        setShowIncompleteProfileModal(true);
+        setHasCheckedProfile(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [user, hasCheckedProfile]);
 
   const categories = [
     { name: 'All', path: 'all' },
@@ -70,9 +72,9 @@ useEffect(() => {
     }
   };
 
-  if(!localStorage.getItem('token')) {
+  if (!localStorage.getItem('token')) {
     window.location.href = '/';
-    return null; 
+    return null;
   }
   return (
     <div className="min-h-screen bg-gray-50">
@@ -116,7 +118,7 @@ useEffect(() => {
                 className="relative hover:text-red-200"
               >
                 <FiSettings />
-               </button>
+              </button>
               <button
                 className="relative hover:text-red-200"
               >
@@ -176,8 +178,15 @@ useEffect(() => {
           onLogout={handleLogout}
         />
       )}
-        {showIncompleteProfileModal && (
-        <IncompleteProfileModal onClose={() => setShowIncompleteProfileModal(false)} />
+      {showIncompleteProfileModal && (
+        <IncompleteProfileModal
+          onClose={() => {
+            setShowIncompleteProfileModal(false);
+            if (setUser) {
+              setUser(prev => ({ ...prev, details_complete: true }));
+            }
+          }}
+        />
       )}
       <main className="container mx-auto px-4 py-6">
 
