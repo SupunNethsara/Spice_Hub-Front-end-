@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import {  useContext, useState  } from 'react';
 import { BsStarFill, BsTruck, BsArrowLeft, BsShieldCheck, BsCreditCard } from 'react-icons/bs';
 import { FiHeart } from 'react-icons/fi';
-import { XMarkIcon } from '@heroicons/react/24/solid';
-import AuthModal from '../../../Othercomponents/Products/AuthModal';
+import CartSidebar from '../../CartSidebar';
+import { useCart } from '../../../Use Context/CartContext';
+
+
+
 
 
 export default function AllCardDetails({ product, onBackClick }) {
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedTab, setSelectedTab] = useState('shipping');
+  const [isCartOpen, setIsCartOpen] = useState(false);
+const { addToCart, cartItems, updateQuantity, removeFromCart } = useCart();
+
 
   const getFirstImageUrl = () => {
     try {
@@ -32,39 +36,23 @@ export default function AllCardDetails({ product, onBackClick }) {
     }
   };
 
+
   const handleAddToCart = () => {
-    if (!isAuthenticated) {
-      setShowAuthModal(true);
-      return;
-    }
-    console.log('Adding to cart:', product);
+    addToCart({
+      id: product.id,
+      name: product.product_name,
+      price: parseFloat(product.Product_price),
+      image: getFirstImageUrl(),
+      quantity: 1
+    });
+    setIsCartOpen(true);
   };
-
-  const handleLogin = () => {
-    setShowAuthModal(false);
-    console.log('Redirect to login');
-    setIsAuthenticated(true);
-  };
-
-  const handleRegister = () => {
-    setShowAuthModal(false);
-    console.log('Redirect to register');
-    setIsAuthenticated(true);
-  };
-
   const mainImageUrl = getFirstImageUrl();
   const allImageUrls = getAllImageUrls();
   const originalPrice = parseFloat(product.Product_price) * 1.2;
 
   return (
     <div className="bg-gray-50 min-h-screen py-8">
-      <AuthModal
-        show={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onLoginClick={handleLogin}
-        onRegisterClick={handleRegister}
-      />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="lg:w-1/2">
@@ -173,12 +161,12 @@ export default function AllCardDetails({ product, onBackClick }) {
               </div>
 
               <div className="mt-6">
-                <button
-                  onClick={handleAddToCart}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg text-sm font-medium"
-                >
-                  Add to Cart
-                </button>
+              <button
+                onClick={handleAddToCart}
+                className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg text-sm font-medium"
+              >
+                Add to Cart
+              </button>
               </div>
               <div className="mt-8 border-t pt-6">
                 <div className="flex border-b">
@@ -302,6 +290,13 @@ export default function AllCardDetails({ product, onBackClick }) {
           </div>
         </div>
       </div>
+       <CartSidebar 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cartItems}
+        updateQuantity={updateQuantity}
+        removeFromCart={removeFromCart}
+      />
     </div>
   );
 }
