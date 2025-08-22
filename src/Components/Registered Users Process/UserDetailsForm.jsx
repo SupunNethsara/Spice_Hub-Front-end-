@@ -23,6 +23,7 @@ function UserDetailsForm() {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
+        console.log('User details fetched:', response.data.details);
         setFormData(prev => ({
           ...prev,
           ...response.data.details

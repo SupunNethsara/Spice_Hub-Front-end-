@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FiPower, FiSettings } from 'react-icons/fi';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { FiSearch, FiShoppingCart, FiHeart, FiUser } from 'react-icons/fi';
 import { BsFire } from 'react-icons/bs';
 import { UserContext } from '../Use Context/useProvider';
@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Logout } from '@mui/icons-material';
 import LogoutModal from './Routing Components/LogoutModal';
 import IncompleteProfileModal from '../UserConnect/IncompleteProfileModal';
+import CartSidebar from './CartSidebar';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -17,10 +18,18 @@ const Dashboard = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [showIncompleteProfileModal, setShowIncompleteProfileModal] = useState(false);
   const [hasCheckedProfile, setHasCheckedProfile] = useState(false);
-  
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const handleLogoutClick = () => {
     setIsLogoutModalOpen(!isLogoutModalOpen);
   }
+
+  const handleCartClick = () => {
+    setIsCartOpen(true);
+  };
+
+  const handleCloseCart = () => {
+    setIsCartOpen(false);
+  };
 
   useEffect(() => {
     if (user && user.details && !user.details_complete && !hasCheckedProfile) {
@@ -114,16 +123,23 @@ const Dashboard = () => {
                 <FiUser />
                 <span>{user?.name || 'Account'}</span>
               </button>
-              <button
+              <Link to='userdetails'>
+               <button
                 className="relative hover:text-red-200"
               >
                 <FiSettings />
               </button>
+              </Link>
+             
               <button
                 className="relative hover:text-red-200"
               >
-                <FiShoppingCart />
-                <span className="absolute -top-2 -right-2 bg-white text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">5</span>
+                <button
+                  onClick={handleCartClick}
+                  className="relative hover:text-red-200 transition-transform hover:scale-110"
+                >
+                  <FiShoppingCart className="w-5 h-5" />
+                </button>
               </button>
               <button
                 onClick={() => handleLogoutClick()}
@@ -188,6 +204,10 @@ const Dashboard = () => {
           }}
         />
       )}
+      <CartSidebar
+        isOpen={isCartOpen}
+        onClose={handleCloseCart}
+      />
       <main className="container mx-auto px-4 py-6">
 
         <Outlet />
