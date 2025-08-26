@@ -1,9 +1,26 @@
 import { FiX, FiPlus, FiMinus, FiShoppingBag } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const CartSidebar = ({ isOpen, onClose, cartItems, updateQuantity, removeFromCart }) => {
+const CartSidebar = ({ isOpen, onClose, cartItems, updateQuantity, removeFromCart, loading }) => {
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
+  const handleQuantityUpdate = async (productId, newQuantity) => {
+    try {
+      await updateQuantity(productId, newQuantity);
+    } catch (err) {
+      // Error is handled in the context
+      console.error('Failed to update quantity:', err);
+    }
+  };
+
+  const handleRemoveItem = async (productId) => {
+    try {
+      await removeFromCart(productId);
+    } catch (err) {
+      console.error('Failed to remove item:', err);
+    }
   };
 
   return (
@@ -43,7 +60,11 @@ const CartSidebar = ({ isOpen, onClose, cartItems, updateQuantity, removeFromCar
               </div>
               
               <div className="flex-1 overflow-y-auto p-6">
-                {cartItems.length === 0 ? (
+                {loading ? (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+                  </div>
+                ) : cartItems.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full text-gray-500">
                     <FiShoppingBag className="text-4xl mb-4" />
                     <p>Your cart is empty</p>
@@ -62,24 +83,31 @@ const CartSidebar = ({ isOpen, onClose, cartItems, updateQuantity, removeFromCar
                           <p className="text-red-600 font-medium">LKR {item.price.toLocaleString()}</p>
                           <div className="flex items-center mt-2">
                             <button 
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="p-1 rounded-md border border-gray-300"
-                              disabled={item.quantity <= 1}
+                              onClick={() => handleQuantityUpdate(item.id, item.quantity - 1)}
+                              disabled={item.quantity <= 1 || loading}
+                              className="p-1 rounded-md border border-gray-300 disabled:opacity-50"
                             >
                               <FiMinus className="text-sm" />
                             </button>
                             <span className="mx-2 w-8 text-center">{item.quantity}</span>
                             <button 
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="p-1 rounded-md border border-gray-300"
+                              onClick={() => handleQuantityUpdate(item.id, item.quantity + 1)}
+                              disabled={item.quantity >= (item.max_quantity || 99) || loading}
+                              className="p-1 rounded-md border border-gray-300 disabled:opacity-50"
                             >
                               <FiPlus className="text-sm" />
                             </button>
                           </div>
+                          {item.max_quantity && (
+                            <p className="text-xs text-gray-500 mt-1">
+                              Max: {item.max_quantity}
+                            </p>
+                          )}
                         </div>
                         <button 
-                          onClick={() => removeFromCart(item.id)}
-                          className="p-2 hover:bg-gray-100 rounded-full"
+                          onClick={() => handleRemoveItem(item.id)}
+                          disabled={loading}
+                          className="p-2 hover:bg-gray-100 rounded-full disabled:opacity-50"
                         >
                           <FiX className="text-gray-500" />
                         </button>
@@ -89,7 +117,7 @@ const CartSidebar = ({ isOpen, onClose, cartItems, updateQuantity, removeFromCar
                 )}
               </div>
               
-              {cartItems.length > 0 && (
+              {cartItems.length > 0 && !loading && (
                 <div className="border-t border-gray-200 p-6">
                   <div className="flex justify-between items-center mb-4">
                     <span className="text-gray-600">Subtotal</span>

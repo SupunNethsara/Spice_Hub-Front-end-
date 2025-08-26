@@ -32,7 +32,7 @@ function UserDetailsForm() {
         console.error('Failed to fetch user details:', err);
       }
     };
-    
+
     fetchUserDetails();
   }, []);
 
@@ -60,7 +60,6 @@ function UserDetailsForm() {
           }
         }
       );
-
       navigate('/dashbaord');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to save details. Please try again.');
@@ -72,14 +71,16 @@ function UserDetailsForm() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-full mx-auto">
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
           <div className="md:flex">
             <div className="md:w-1/3 bg-gradient-to-b from-red-600 to-red-700 p-8 text-white">
               <div className="flex flex-col items-center">
-                <div className="h-24 w-24 rounded-full bg-white bg-opacity-20 flex items-center justify-center mb-4">
-                  <svg className="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                <div className="h-20 w-20 rounded-full bg-transparent border-8 border-white  bg-opacity-10 flex items-center justify-center relative">
+                  <svg className="h-10 w-10 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 15C15.3137 15 18 12.3137 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 12.3137 8.68629 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M3 20C3 16.6863 5.68629 14 9 14H15C18.3137 14 21 16.6863 21 20V21H3V20Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M16 6C16 7.65685 14.6569 9 13 9C11.3431 9 10 7.65685 10 6C10 4.34315 11.3431 3 13 3C14.6569 3 16 4.34315 16 6Z" fill="currentColor" fillOpacity="0.2" />
                   </svg>
                 </div>
                 <h2 className="text-xl font-bold mb-1">Complete Your Profile</h2>
@@ -87,32 +88,49 @@ function UserDetailsForm() {
                   Fill in your details to get the most out of SpiceHub
                 </p>
               </div>
-              
-              <div className="mt-8">
-                <div className="flex items-center mb-4">
-                  <div className="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">1</span>
+
+              <div className="mt-10">
+                <div className="relative">
+                  <div className="absolute left-4 top-0 h-full w-0.5 bg-white bg-opacity-30"></div>
+
+                  <div className="flex items-center mb-8 relative">
+                    <div className="w-9 h-9 rounded-full bg-white bg-opacity-100 flex items-center justify-center mr-4 z-10">
+                      <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-white opacity-90">STEP 1</span>
+                      <p className="text-white font-medium">Basic Information</p>
+                    </div>
                   </div>
-                  <span className="text-red-100">Basic Information</span>
-                </div>
-                <div className="flex items-center mb-4">
-                  <div className="w-8 h-8 rounded-full bg-white bg-opacity-10 flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">2</span>
+
+                  <div className="flex items-center mb-8 relative">
+                    <div className="w-9 h-9 rounded-full bg-white bg-opacity-100 flex items-center justify-center mr-4 z-10 ring-2 ring-white ring-offset-2 ring-offset-red-600">
+                      <span className="text-red-600 font-bold">2</span>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-white opacity-90">STEP 2</span>
+                      <p className="text-white font-medium">Shipping Details</p>
+                    </div>
                   </div>
-                  <span className="text-red-200">Shipping Details</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-white bg-opacity-10 flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">3</span>
+
+                  <div className="flex items-center relative">
+                    <div className="w-9 h-9 rounded-full bg-white bg-opacity-100 flex items-center justify-center mr-4 z-10 ring-2 ring-white ring-offset-2 ring-offset-red-600">
+                      <span className="text-red-600 font-bold">3</span>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-white opacity-70">STEP 3</span>
+                      <p className="text-red-200">Preferences</p>
+                    </div>
                   </div>
-                  <span className="text-red-200">Preferences</span>
                 </div>
               </div>
             </div>
 
             <div className="md:w-2/3 p-8">
               <h3 className="text-2xl font-bold text-gray-800 mb-6">Shipping Information</h3>
-              
+
               {error && (
                 <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
                   <p>{error}</p>
@@ -223,11 +241,10 @@ function UserDetailsForm() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className={`px-6 py-3 rounded-lg text-white font-medium transition-colors ${
-                      isLoading 
-                        ? 'bg-red-400 cursor-not-allowed' 
+                    className={`px-6 py-3 rounded-lg text-white font-medium transition-colors ${isLoading
+                        ? 'bg-red-400 cursor-not-allowed'
                         : 'bg-red-600 hover:bg-red-700'
-                    }`}
+                      }`}
                   >
                     {isLoading ? (
                       <span className="flex items-center justify-center">
