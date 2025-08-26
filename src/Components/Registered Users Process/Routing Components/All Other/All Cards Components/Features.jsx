@@ -1,5 +1,29 @@
+import { useEffect , useState } from 'react';
 import { BsTruck, BsShieldCheck } from 'react-icons/bs';
+import axios from 'axios';
 export function Features() {
+
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [shippingPayment, setShippingPayment] = useState(null);
+useEffect(() => {
+  const handleshippayment = async () => {
+    try {
+      const res = await axios.get('http://localhost:8000/api/user-shipping-payment', {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          userId: user.id
+        }
+      });
+      setShippingPayment(res.data);
+      console.log("Shipping Payment:", res.data);
+    } catch (error) {
+      console.error("Error fetching shipping payment:", error.response?.data || error.message);
+    }
+  };
+
+  handleshippayment();
+}, [user.id, user.token]);
+
   return (
     <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="text-center p-4 bg-gray-50 rounded-lg">
@@ -7,7 +31,9 @@ export function Features() {
           <BsTruck className="text-red-600 text-xl" />
         </div>
         <h4 className="font-semibold text-gray-800 mb-1">Free Shipping</h4>
-        <p className="text-sm text-gray-600">On orders over LKR 5,000</p>
+        <p className="text-sm text-gray-600">
+          On orders over {shippingPayment ? `LKR ${shippingPayment.data.shipping_payment}` : '...'}
+        </p>
       </div>
 
       <div className="text-center p-4 bg-gray-50 rounded-lg">
