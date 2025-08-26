@@ -22,7 +22,7 @@ function All() {
       })
       .catch(() => setLoading(false));
   }, []);
-console.log(products);
+  console.log(products);
   const handleOverviewClick = (id) => {
     axios.get(`http://localhost:8000/api/orderProduct/${id}`)
       .then(res => {
@@ -60,49 +60,7 @@ console.log(products);
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div className="flex items-center space-x-3">
-          <button className="flex items-center bg-white border border-gray-200 px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-50 transition-all shadow-sm hover:shadow-md">
-            <FiFilter className="mr-2" /> Filter
-          </button>
-
-          <div className="relative">
-            <button
-              className="flex items-center bg-white border border-gray-200 px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-50 transition-all shadow-sm hover:shadow-md"
-              onClick={() => setShowSortDropdown(!showSortDropdown)}
-            >
-              Sort By: {sortOption.replace('-', ' ')} <FiChevronDown className={`ml-2 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`} />
-            </button>
-
-            {showSortDropdown && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg z-10 overflow-hidden border border-gray-100"
-              >
-                {['featured', 'price-low', 'price-high', 'popular'].map((option) => (
-                  <button
-                    key={option}
-                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors ${sortOption === option ? 'bg-red-50 text-red-600' : 'text-gray-700'}`}
-                    onClick={() => {
-                      setSortOption(option);
-                      setShowSortDropdown(false);
-                    }}
-                  >
-                    {option.replace('-', ' ')}
-                  </button>
-                ))}
-              </motion.div>
-            )}
-          </div>
-        </div>
-
-        <div className="text-gray-500 text-sm md:text-base">
-          Showing {products.length} {products.length === 1 ? 'product' : 'products'}
-        </div>
-      </div>
-
+    <div className="container mx-auto px-4 ">
       {selectedProduct ? (
         <AllCardDetails product={selectedProduct} onBackClick={handleBackClick} />
       ) : (
@@ -120,9 +78,49 @@ console.log(products);
                 Shop the Collection
               </button>
             </div>
+
             <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-black/10 z-0"></div>
           </motion.div>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div className="text-gray-500 text-sm md:text-base">
+              Showing {products.length} {products.length === 1 ? 'product' : 'products'}
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <button className="flex items-center bg-white border border-gray-200 px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-50 transition-all shadow-sm hover:shadow-md">
+              <FiFilter className="mr-2" /> Filter
+            </button>
 
+            <div className="relative">
+              <button
+                className="flex items-center bg-white border border-gray-200 px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-50 transition-all shadow-sm hover:shadow-md"
+                onClick={() => setShowSortDropdown(!showSortDropdown)}
+              >
+                Sort By: {sortOption.replace('-', ' ')} <FiChevronDown className={`ml-2 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`} />
+              </button>
+
+              {showSortDropdown && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute right-0 mt- w-48 bg-white rounded-xl shadow-lg z-10 overflow-hidden border border-gray-100"
+                >
+                  {['featured', 'price-low', 'price-high', 'popular'].map((option) => (
+                    <button
+                      key={option}
+                      className={`w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors ${sortOption === option ? 'bg-red-50 text-red-600' : 'text-gray-700'}`}
+                      onClick={() => {
+                        setSortOption(option);
+                        setShowSortDropdown(false);
+                      }}
+                    >
+                      {option.replace('-', ' ')}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </div>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {loading ? (
               Array(8).fill().map((_, i) => (
@@ -146,7 +144,7 @@ console.log(products);
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
                     whileHover={{ y: -5 }}
-                    className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
+                    className="bg-white rounded-2xl mt-4 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
                   >
                     <div className="relative">
                       {imageUrl ? (
