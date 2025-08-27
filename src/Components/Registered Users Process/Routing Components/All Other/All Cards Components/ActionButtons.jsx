@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export function ActionButtons({ onAddToCart, loading, stock, addToCartError }) {
   return (
     <div className="mt-8 space-y-4">
@@ -18,12 +20,14 @@ export function ActionButtons({ onAddToCart, loading, stock, addToCartError }) {
           'Add to Cart'
         )}
       </button>
+      <Link to='buynow'>
+        <button
+          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white py-4 rounded-xl text-base font-semibold transition-colors"
+        >
+          Buy Now
+        </button>
+      </Link>
 
-      <button
-        className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white py-4 rounded-xl text-base font-semibold transition-colors"
-      >
-        Buy Now
-      </button>
 
       {addToCartError && (
         <p className="text-red-600 text-sm mt-2 text-center">{addToCartError}</p>
