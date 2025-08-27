@@ -7,10 +7,10 @@ const BuyNowPage = () => {
     const [shippingPayment, setShippingPayment] = useState(null);
     const [loading, setLoading] = useState(true);
     const location = useLocation();
-    
+
 
     const product = location.state?.product;
-    
+
     const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
@@ -65,12 +65,12 @@ const BuyNowPage = () => {
     }, [user?.id, user?.token]);
 
     const subtotal = product ? parseFloat(product.Product_price) : 0;
-    const shippingCost = shippingPayment?.data?.shipping_payment 
-        ? parseFloat(shippingPayment.data.shipping_payment) 
+    const shippingCost = shippingPayment?.data?.shipping_payment
+        ? parseFloat(shippingPayment.data.shipping_payment)
         : 0;
     const tax = 0;
     const total = subtotal + shippingCost + tax;
-    
+
 
     const getFirstImageUrl = () => {
         try {
@@ -82,14 +82,14 @@ const BuyNowPage = () => {
             return null;
         }
     };
-    
+
     const calculateDiscount = () => {
         if (!product?.original_price || !product?.Product_price) return 0;
         const original = parseFloat(product.original_price);
         const current = parseFloat(product.Product_price);
         return Math.round(((original - current) / original) * 100);
     };
-    
+
     const discountPercentage = calculateDiscount();
     const originalPrice = product?.original_price ? parseFloat(product.original_price) : null;
 
@@ -100,7 +100,60 @@ const BuyNowPage = () => {
             </div>
         );
     }
+    const handlePayNow = async () => {
+    if (!userdetails[0]) {
+        alert("Please add shipping details first.");
+        return;
+    }
 
+    try {
+        // First create the order in your database
+        const orderResponse = await axios.post(
+            "http://localhost:8000/api/create-order",
+            {
+                user_id: user.id,
+                amount: total.toFixed(2),
+                items: product.product_name,
+                // Include other necessary data
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const orderId = orderResponse.data.order_id;
+
+        // Then redirect to PayHere
+        const paymentData = {
+            sandbox: true,
+            merchant_id: "4OVxzeoSgdM4JFnJo1D0lj3LH",
+            return_url: "http://localhost:3000/payment-success",
+            cancel_url: "http://localhost:3000/payment-cancel",
+            notify_url: "http://localhost:8000/api/payment-notify",
+            order_id: orderId, // Use the order ID from your database
+            items: product.product_name,
+            amount: total.toFixed(2),
+            currency: "LKR",
+            first_name: userdetails[0].name,
+            last_name: userdetails[0].name,
+            email: userdetails[0].email || "test@example.com",
+            phone: userdetails[0].phone,
+            address: userdetails[0].address,
+            city: userdetails[0].district || "Colombo",
+            country: "Sri Lanka",
+        };
+
+        const queryString = new URLSearchParams(paymentData).toString();
+        window.location.href = `https://sandbox.payhere.lk/pay/checkout?${queryString}`;
+        
+    } catch (error) {
+        console.error("Error creating order:", error);
+        alert("Failed to create order. Please try again.");
+    }
+};
     return (
         <div className="h-auto flex items-center justify-center py-8">
             <div className="w-full container bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
@@ -126,7 +179,7 @@ const BuyNowPage = () => {
                             <span className="text-sm font-medium mt-2 text-gray-500">Payment</span>
                         </div>
                     </div>
-                    
+
                     {userdetails.length > 0 ? (
                         userdetails.map((user, index) => (
                             <div key={index} className="bg-gray-50 p-5 rounded-xl mb-6">
@@ -147,14 +200,14 @@ const BuyNowPage = () => {
 
                     <div className="bg-gray-50 p-5 rounded-xl mb-6">
                         <h2 className="text-lg font-semibold text-gray-800 mb-4">Package 1 of 1</h2>
-                        
+
                         {shippingPayment && shippingPayment.data ? (
                             <div className="flex justify-between items-center mb-4 p-3 bg-white rounded-lg">
                                 <div>
                                     <h3 className="font-medium text-gray-800">Delivery Option</h3>
                                     <p className="text-sm text-gray-600">
-                                        {shippingPayment.data.district && shippingPayment.data.province 
-                                            ? `${shippingPayment.data.district}, ${shippingPayment.data.province}` 
+                                        {shippingPayment.data.district && shippingPayment.data.province
+                                            ? `${shippingPayment.data.district}, ${shippingPayment.data.province}`
                                             : 'Standard Delivery'
                                         }
                                     </p>
@@ -171,14 +224,14 @@ const BuyNowPage = () => {
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="bg-gray-50 p-5 rounded-xl mb-6">
                         <div className="flex">
                             <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center mr-4 overflow-hidden">
                                 {getFirstImageUrl() ? (
-                                    <img 
-                                        src={getFirstImageUrl()} 
-                                        alt={product?.product_name || "Product"} 
+                                    <img
+                                        src={getFirstImageUrl()}
+                                        alt={product?.product_name || "Product"}
                                         className="w-full h-full object-cover"
                                     />
                                 ) : (
@@ -241,7 +294,10 @@ const BuyNowPage = () => {
                             <p className="text-xs text-gray-500 mt-2">VAT included, where applicable</p>
                         </div>
 
-                        <button className="w-full bg-[#e8000c] hover:bg-red-800 text-white font-bold py-4 px-4 rounded-xl flex items-center justify-center transition duration-200 shadow-lg hover:shadow-xl">
+                        <button
+                            onClick={handlePayNow}
+                            className="w-full bg-[#e8000c] hover:bg-red-800 text-white font-bold py-4 px-4 rounded-xl flex items-center justify-center transition duration-200 shadow-lg hover:shadow-xl"
+                        >
                             <i className="fas fa-lock mr-2"></i> Process to Pay - Rs. {total.toLocaleString()}
                         </button>
 

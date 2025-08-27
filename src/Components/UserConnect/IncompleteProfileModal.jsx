@@ -1,9 +1,8 @@
-import { Link } from "react-router";
-
+import { Link } from 'react-router-dom';
 
 const IncompleteProfileModal = ({ onClose }) => {
-const handleContinue = () => {
-   onClose();
+  const handleContinue = () => {
+    onClose();
   };
 
   return (
@@ -18,15 +17,11 @@ const handleContinue = () => {
           >
             Later
           </button>
-          <Link to='userdetails'>
-           <button
-            onClick={handleContinue}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-          >
-            Complete Profile Now
-          </button>
+          <Link to='userdetails' onClick={handleContinue}>
+            <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+              Complete Profile Now
+            </button>
           </Link>
-         
         </div>
       </div>
     </div>

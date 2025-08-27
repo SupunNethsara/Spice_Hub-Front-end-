@@ -19,6 +19,7 @@ const Dashboard = () => {
   const [showIncompleteProfileModal, setShowIncompleteProfileModal] = useState(false);
   const [hasCheckedProfile, setHasCheckedProfile] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  
   const handleLogoutClick = () => {
     setIsLogoutModalOpen(!isLogoutModalOpen);
   }
@@ -31,16 +32,45 @@ const Dashboard = () => {
     setIsCartOpen(false);
   };
 
-  useEffect(() => {
-    if (user && user.details && !user.details_complete && !hasCheckedProfile) {
-      const timer = setTimeout(() => {
+  const checkProfileComplete = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/user/details', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const userDetails = response.data;
+      const isProfileComplete = userDetails && 
+                               userDetails.name && 
+                               userDetails.phone && 
+                               userDetails.address && 
+                               userDetails.district;
+      
+      if (!isProfileComplete && !hasCheckedProfile) {
         setShowIncompleteProfileModal(true);
-        setHasCheckedProfile(true);
-      }, 1000);
+      }
+      
+      setHasCheckedProfile(true);
+      
+    } catch (error) {
+      console.error('Error checking profile:', error);
+      setHasCheckedProfile(true);
+    }
+  };
 
-      return () => clearTimeout(timer);
+  useEffect(() => {
+    if (user && !hasCheckedProfile) {
+      checkProfileComplete();
     }
   }, [user, hasCheckedProfile]);
+
+  useEffect(() => {
+    if (user?.details_complete) {
+      setShowIncompleteProfileModal(false);
+    }
+  }, [user?.details_complete]);
 
   const categories = [
     { name: 'All', path: 'all' },
@@ -198,9 +228,7 @@ const Dashboard = () => {
         <IncompleteProfileModal
           onClose={() => {
             setShowIncompleteProfileModal(false);
-            if (setUser) {
-              setUser(prev => ({ ...prev, details_complete: true }));
-            }
+            setHasCheckedProfile(true); 
           }}
         />
       )}
