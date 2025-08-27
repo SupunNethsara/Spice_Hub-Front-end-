@@ -1,6 +1,12 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router-dom";
 
-export function ActionButtons({ onAddToCart, loading, stock, addToCartError }) {
+export function ActionButtons({ onAddToCart, loading, stock, addToCartError, product }) {
+const navigate = useNavigate();
+     const handleBuyNow = () => {
+        navigate('buynow', { state: { product } });
+    };
+
+
   return (
     <div className="mt-8 space-y-4">
       <button
@@ -20,13 +26,13 @@ export function ActionButtons({ onAddToCart, loading, stock, addToCartError }) {
           'Add to Cart'
         )}
       </button>
-      <Link to='buynow'>
-        <button
-          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white py-4 rounded-xl text-base font-semibold transition-colors"
-        >
-          Buy Now
-        </button>
-      </Link>
+      <button
+        onClick={handleBuyNow}
+        className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white py-4 rounded-xl text-base font-semibold transition-colors"
+      >
+        Buy Now
+      </button>
+
 
 
       {addToCartError && (

@@ -74,8 +74,8 @@ export default function AllCardDetails({ product, onBackClick }) {
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="lg:w-1/2">
             <ImageGallery
-              images={allImageUrls} 
-              productName={product.product_name} 
+              images={allImageUrls}
+              productName={product.product_name}
             />
             <ProductDetailsInfo product={product} />
           </div>
@@ -85,14 +85,15 @@ export default function AllCardDetails({ product, onBackClick }) {
               <ProductHeader product={product} />
               <Rating />
               <Price price={price} />
-              
+
               <ActionButtons
                 onAddToCart={handleAddToCart}
                 loading={loading}
                 stock={product.stock}
                 addToCartError={addToCartError}
+                product={product}
               />
-              
+
               <Features />
               <Description description={product.Product_description} />
             </div>

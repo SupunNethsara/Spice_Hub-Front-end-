@@ -1,42 +1,110 @@
 import axios from "axios";
-import {useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const BuyNowPage = () => {
     const [userdetails, setUserdetails] = useState([]);
+    const [shippingPayment, setShippingPayment] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const location = useLocation();
+    
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    const product = location.state?.product;
+    
+    const user = JSON.parse(localStorage.getItem("user"));
+
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
                 const response = await axios.post(
                     "http://localhost:8000/api/user-shipping-address",
                     {
-                        userId: user.id
+                        userId: user.id,
                     },
                     {
                         headers: {
                             Authorization: `Bearer ${user.token}`,
-                            'Content-Type': 'application/json'
-                        }
+                            "Content-Type": "application/json",
+                        },
                     }
                 );
-                console.log("User details response:", response.data);
                 setUserdetails(response.data.user_details || []);
             } catch (error) {
                 console.error("Error fetching user details:", error);
             }
         };
 
+        const handleshippayment = async () => {
+            try {
+                const res = await axios.get(
+                    "http://localhost:8000/api/user-shipping-payment",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${user.token}`,
+                            userId: user.id,
+                        },
+                    }
+                );
+                setShippingPayment(res.data);
+            } catch (error) {
+                console.error(
+                    "Error fetching shipping payment:",
+                    error.response?.data || error.message
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+
         if (user && user.id) {
             fetchUserDetails();
+            handleshippayment();
+        } else {
+            setLoading(false);
         }
-    }, [user.id, user.token]);
+    }, [user?.id, user?.token]);
+
+    const subtotal = product ? parseFloat(product.Product_price) : 0;
+    const shippingCost = shippingPayment?.data?.shipping_payment 
+        ? parseFloat(shippingPayment.data.shipping_payment) 
+        : 0;
+    const tax = 0;
+    const total = subtotal + shippingCost + tax;
+    
+
+    const getFirstImageUrl = () => {
+        try {
+            if (!product?.Product_image) return null;
+            const images = JSON.parse(product.Product_image);
+            return images.length > 0 ? `http://localhost:8000/storage/${images[0]}` : null;
+        } catch (e) {
+            console.error("Error parsing product image:", e);
+            return null;
+        }
+    };
+    
+    const calculateDiscount = () => {
+        if (!product?.original_price || !product?.Product_price) return 0;
+        const original = parseFloat(product.original_price);
+        const current = parseFloat(product.Product_price);
+        return Math.round(((original - current) / original) * 100);
+    };
+    
+    const discountPercentage = calculateDiscount();
+    const originalPrice = product?.original_price ? parseFloat(product.original_price) : null;
+
+    if (loading) {
+        return (
+            <div className="h-screen flex items-center justify-center">
+                <div className="text-xl">Loading...</div>
+            </div>
+        );
+    }
 
     return (
-        <div className="h-auto flex items-center justify-center -8">
+        <div className="h-auto flex items-center justify-center py-8">
             <div className="w-full container bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
-                <div className="w-full md:w-full p-6 md:p-8">
+                <div className="w-full md:w-2/3 p-6 md:p-8">
                     <div className="mb-8">
                         <h1 className="text-3xl font-bold text-gray-900">Checkout</h1>
                         <p className="text-gray-600 mt-2">Complete your purchase securely</p>
@@ -58,6 +126,7 @@ const BuyNowPage = () => {
                             <span className="text-sm font-medium mt-2 text-gray-500">Payment</span>
                         </div>
                     </div>
+                    
                     {userdetails.length > 0 ? (
                         userdetails.map((user, index) => (
                             <div key={index} className="bg-gray-50 p-5 rounded-xl mb-6">
@@ -76,17 +145,25 @@ const BuyNowPage = () => {
                         <p>No shipping address found</p>
                     )}
 
-
                     <div className="bg-gray-50 p-5 rounded-xl mb-6">
                         <h2 className="text-lg font-semibold text-gray-800 mb-4">Package 1 of 1</h2>
-
-                        <div className="flex justify-between items-center mb-4 p-3 bg-white rounded-lg">
-                            <div>
-                                <h3 className="font-medium text-gray-800">Delivery Option</h3>
-                                <p className="text-sm text-gray-600">Standard • Guaranteed by 29 Aug - Sep</p>
+                        
+                        {shippingPayment && shippingPayment.data ? (
+                            <div className="flex justify-between items-center mb-4 p-3 bg-white rounded-lg">
+                                <div>
+                                    <h3 className="font-medium text-gray-800">Delivery Option</h3>
+                                    <p className="text-sm text-gray-600">
+                                        {shippingPayment.data.district && shippingPayment.data.province 
+                                            ? `${shippingPayment.data.district}, ${shippingPayment.data.province}` 
+                                            : 'Standard Delivery'
+                                        }
+                                    </p>
+                                </div>
+                                <span className="font-semibold text-lg">Rs. {shippingPayment.data.shipping_payment}</span>
                             </div>
-                            <span className="font-semibold text-lg">Rs. 280</span>
-                        </div>
+                        ) : (
+                            <p>Delivery information not available</p>
+                        )}
 
                         <div className="bg-red-50 p-3 rounded-lg border border-red-100">
                             <p className="text-xs text-red-700 font-medium flex items-center">
@@ -94,18 +171,41 @@ const BuyNowPage = () => {
                             </p>
                         </div>
                     </div>
+                    
                     <div className="bg-gray-50 p-5 rounded-xl mb-6">
                         <div className="flex">
-                            <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
-                                <i className="fas fa-clock text-gray-400 text-3xl"></i>
+                            <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center mr-4 overflow-hidden">
+                                {getFirstImageUrl() ? (
+                                    <img 
+                                        src={getFirstImageUrl()} 
+                                        alt={product?.product_name || "Product"} 
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <i className="fas fa-image text-gray-400 text-3xl"></i>
+                                )}
                             </div>
                             <div className="flex-1">
-                                <h3 className="font-medium text-gray-800 text-lg">G-Shock GA110 Analog Watch</h3>
-                                <p className="text-sm text-gray-500 mt-1">Sport Watch, Dual Time Display, Water Resistant</p>
+                                <h3 className="font-medium text-gray-800 text-lg">
+                                    {product?.product_name || "Product Name Not Available"}
+                                </h3>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    {product?.Product_description || "Product description not available"}
+                                </p>
                                 <div className="flex items-center mt-2">
-                                    <span className="bg-[#e8000c] text-white text-xs font-bold px-2 py-1 rounded">77% OFF</span>
-                                    <span className="ml-3 text-gray-800 font-semibold text-lg">Rs. 1,599</span>
-                                    <span className="ml-3 text-gray-400 text-sm line-through">Rs. 6,999</span>
+                                    {discountPercentage > 0 && (
+                                        <span className="bg-[#e8000c] text-white text-xs font-bold px-2 py-1 rounded">
+                                            {discountPercentage}% OFF
+                                        </span>
+                                    )}
+                                    <span className="ml-3 text-gray-800 font-semibold text-lg">
+                                        Rs. {subtotal.toLocaleString()}
+                                    </span>
+                                    {originalPrice && originalPrice > subtotal && (
+                                        <span className="ml-3 text-gray-400 text-sm line-through">
+                                            Rs. {originalPrice.toLocaleString()}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -119,30 +219,30 @@ const BuyNowPage = () => {
                         <div className="space-y-4 mb-6">
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Subtotal</span>
-                                <span className="font-medium">Rs. 1,599</span>
+                                <span className="font-medium">Rs. {subtotal.toLocaleString()}</span>
                             </div>
 
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Shipping</span>
-                                <span className="font-medium">Rs. 280</span>
+                                <span className="font-medium">Rs. {shippingCost.toLocaleString()}</span>
                             </div>
 
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Tax</span>
-                                <span className="font-medium">Rs. 0</span>
+                                <span className="font-medium">Rs. {tax.toLocaleString()}</span>
                             </div>
                         </div>
 
                         <div className="border-t border-gray-300 pt-4 mb-6">
                             <div className="flex justify-between items-center">
                                 <span className="font-semibold text-lg text-gray-900">Total</span>
-                                <span className="font-bold text-2xl text-[#e8000c]">Rs. 1,879</span>
+                                <span className="font-bold text-2xl text-[#e8000c]">Rs. {total.toLocaleString()}</span>
                             </div>
                             <p className="text-xs text-gray-500 mt-2">VAT included, where applicable</p>
                         </div>
 
                         <button className="w-full bg-[#e8000c] hover:bg-red-800 text-white font-bold py-4 px-4 rounded-xl flex items-center justify-center transition duration-200 shadow-lg hover:shadow-xl">
-                            <i className="fas fa-lock mr-2"></i> Process to Pay - Rs. 1,879
+                            <i className="fas fa-lock mr-2"></i> Process to Pay - Rs. {total.toLocaleString()}
                         </button>
 
                         <div className="mt-6 flex justify-center space-x-6">
