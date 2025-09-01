@@ -15,26 +15,32 @@ function UserDetailsForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/user/details', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-        console.log('User details fetched:', response.data.details);
-        setFormData(prev => ({
-          ...prev,
-          ...response.data.details
-        }));
-      } catch (err) {
-        console.error('Failed to fetch user details:', err);
-      }
-    };
+useEffect(() => {
+  const fetchUserDetails = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/user/details', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      console.log('User details fetched:', response.data);
+      setFormData(prev => ({
+        ...prev,
+        province: response.data.province || '',
+        district: response.data.district || '',
+        city: response.data.city || '',
+        address: response.data.address || '',
+        postal_code: response.data.postal_code || '',
+        phone: response.data.phone || ''
+      }));
+    } catch (err) {
+      console.error('Failed to fetch user details:', err);
+    }
+  };
 
-    fetchUserDetails();
-  }, []);
+  fetchUserDetails();
+}, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
