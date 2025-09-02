@@ -19,6 +19,7 @@ const Dashboard = () => {
   const [showIncompleteProfileModal, setShowIncompleteProfileModal] = useState(false);
   const [hasCheckedProfile, setHasCheckedProfile] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState('All');
   
   const handleLogoutClick = () => {
     setIsLogoutModalOpen(!isLogoutModalOpen);
@@ -74,22 +75,23 @@ const Dashboard = () => {
 
   const categories = [
     { name: 'All', path: 'all' },
-    { name: 'Spices', path: '' },
-    { name: 'Herbs', path: '' },
-    { name: 'Blends', path: '' },
-    { name: 'Seasonings', path: '' },
-    { name: 'Specialty', path: '' }
+    { name: 'Spices', path: 'spices' },
+    { name: 'Herbs', path: 'herbs' },
+    { name: 'Blends', path: 'blends' },
+    { name: 'Seasonings', path: 'seasonings' },
+    { name: 'Speciality', path: 'Speciality' }
   ];
 
-  const getActiveCategory = () => {
+  useEffect(() => {
     const currentPath = location.pathname;
-    const matchedCategory = categories.find(cat =>
-      currentPath === cat.path
-    );
-    return matchedCategory ? matchedCategory.name : 'All';
-  };
+    
+    
+  }, [location.pathname]);
 
-  const activeCategory = getActiveCategory();
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category.name);
+    navigate(category.path);
+  };
 
   const handleLogout = async () => {
     try {
@@ -153,7 +155,7 @@ const Dashboard = () => {
                 <FiUser />
                 <span>{user?.name || 'Account'}</span>
               </button>
-              <Link to='userdetails'>
+              <Link to='/dashboard/userdetails'>
                <button
                 className="relative hover:text-red-200"
               >
@@ -206,11 +208,11 @@ const Dashboard = () => {
             {categories.map((category) => (
               <button
                 key={category.name}
-                className={`whitespace-nowrap px-3 py-1 rounded-full ${activeCategory === category.name
-                  ? 'bg-red-600 text-white'
+                className={`whitespace-nowrap px-3 py-1 rounded-full transition-colors ${activeCategory === category.name
+                  ? 'bg-red-600 text-white shadow-md'
                   : 'text-gray-700 hover:bg-gray-100'
                   }`}
-                onClick={() => navigate(category.path)}
+                onClick={() => handleCategoryClick(category)}
               >
                 {category.name}
               </button>

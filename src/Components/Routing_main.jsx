@@ -13,9 +13,14 @@ import Q_main from "./Othercomponents/Quality/Q_main";
 import Q_Controlling from "./Othercomponents/Quality/NavigateComponents/Q_Controlling";
 import Q_Assurance from "./Othercomponents/Quality/NavigateComponents/Q_Assurance";
 import Dashbaord from "./Registered Users Process/Dashbaord";
-import AllItems from "./Registered Users Process/Routing Components/All";
+import AllItems from "./Registered Users Process/Routing Components/Product Catogorize/All";
 import UserDetailsForm from "./Registered Users Process/UserDetailsForm";
 import BuyNowPage from "./Registered Users Process/Routing Components/All Other/BuyNowPage";
+import Spices from "./Registered Users Process/Routing Components/Product Catogorize/Spices";
+import Herbs from "./Registered Users Process/Routing Components/Product Catogorize/Herbs";
+import Blends from "./Registered Users Process/Routing Components/Product Catogorize/Blends";
+import Seasonings from "./Registered Users Process/Routing Components/Product Catogorize/Seasonings";
+import Speciality from "./Registered Users Process/Routing Components/Product Catogorize/Speciality ";
 
 
 export default function Routing_main() {
@@ -23,10 +28,15 @@ export default function Routing_main() {
     <div className="m-0 p-0 overflow-hidden">
       <Routes>
         <Route path="/dashbaord" element={<Dashbaord />} >
-         <Route index element={<AllItems/>} />
-         <Route path="all" element={<AllItems />} />
-         <Route path="userdetails" element={<UserDetailsForm />} />
-         <Route path="buynow" element={<BuyNowPage />} />
+          <Route index element={<AllItems />} />
+          <Route path="all" element={<AllItems />} />
+          <Route path="spices" element={<Spices />} />
+          <Route path="herbs" element={<Herbs />} />
+          <Route path="blends" element={<Blends />} />
+          <Route path="seasonings" element={<Seasonings />} />
+          <Route path="speciality" element={<Speciality />} />
+          <Route path="userdetails" element={<UserDetailsForm />} />
+          <Route path="buynow" element={<BuyNowPage />} />
         </Route>
         <Route index element={<Home />} />
         <Route path="/aboutus" element={<About />}>

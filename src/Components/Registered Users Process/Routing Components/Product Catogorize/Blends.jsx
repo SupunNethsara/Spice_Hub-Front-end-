@@ -3,11 +3,11 @@ import axios from 'axios';
 import { FiHeart, FiFilter, FiChevronDown } from 'react-icons/fi';
 import { BsStarFill, BsTruck, BsFire } from 'react-icons/bs';
 import { motion } from 'framer-motion';
-import AllCardDetails from './All Other/AllCardsdetails';
+import AllCardDetails from '../All Other/AllCardsdetails';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-function All() {
+function Blends() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -17,13 +17,16 @@ function All() {
   useEffect(() => {
     axios.get('http://localhost:8000/api/getOrder')
       .then(res => {
-        setProducts(res.data);
+        const spicesProducts = res.data.filter(product => 
+          product.category === 'Blends (මිශ්‍රණ)'
+        );
+        setProducts(spicesProducts);
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
   
-  const handleOverviewClick = (id) => {
+   const handleOverviewClick = (id) => {
     axios.get(`http://localhost:8000/api/orderProduct/${id}`)
       .then(res => {
         setSelectedProduct(res.data.product);
@@ -222,4 +225,4 @@ function All() {
   );
 }
 
-export default All;
+export default Blends;
