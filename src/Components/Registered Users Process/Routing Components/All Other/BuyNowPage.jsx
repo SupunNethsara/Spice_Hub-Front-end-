@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Loader from "../../../Loader/Loader";
 
 const BuyNowPage = () => {
     const [userdetails, setUserdetails] = useState([]);
@@ -92,9 +93,7 @@ const BuyNowPage = () => {
 
     if (loading) {
         return (
-            <div className="h-screen flex items-center justify-center">
-                <div className="text-xl">Loading...</div>
-            </div>
+            <Loader />
         );
     }
     const handlePayNow = async () => {
@@ -104,14 +103,12 @@ const BuyNowPage = () => {
         }
 
         try {
-            // First create the order in your database
             const orderResponse = await axios.post(
                 "http://localhost:8000/api/create-order",
                 {
                     user_id: user.id,
                     amount: total.toFixed(2),
                     items: product.product_name,
-                    // Include other necessary data
                 },
                 {
                     headers: {

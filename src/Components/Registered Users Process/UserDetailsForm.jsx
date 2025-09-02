@@ -76,7 +76,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="h-auto bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-full mx-auto">
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
           <div className="md:flex">
