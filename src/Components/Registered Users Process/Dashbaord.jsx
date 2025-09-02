@@ -155,7 +155,7 @@ const Dashboard = () => {
                 <FiUser />
                 <span>{user?.name || 'Account'}</span>
               </button>
-              <Link to='/dashboard/userdetails'>
+              <Link to='userdetails'>
                <button
                 className="relative hover:text-red-200"
               >
