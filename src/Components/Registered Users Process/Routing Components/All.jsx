@@ -22,7 +22,7 @@ function All() {
       })
       .catch(() => setLoading(false));
   }, []);
-  console.log(products);
+  
   const handleOverviewClick = (id) => {
     axios.get(`http://localhost:8000/api/orderProduct/${id}`)
       .then(res => {

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export function ActionButtons({ onAddToCart, loading, stock, addToCartError, product }) {
 const navigate = useNavigate();
      const handleBuyNow = () => {
-        navigate('buynow', { state: { product } });
+        navigate('/dashbaord/buynow', { state: { product } });
     };
 
 

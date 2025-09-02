@@ -7,10 +7,7 @@ const BuyNowPage = () => {
     const [shippingPayment, setShippingPayment] = useState(null);
     const [loading, setLoading] = useState(true);
     const location = useLocation();
-
-
     const product = location.state?.product;
-
     const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
@@ -101,59 +98,59 @@ const BuyNowPage = () => {
         );
     }
     const handlePayNow = async () => {
-    if (!userdetails[0]) {
-        alert("Please add shipping details first.");
-        return;
-    }
+        if (!userdetails[0]) {
+            alert("Please add shipping details first.");
+            return;
+        }
 
-    try {
-        // First create the order in your database
-        const orderResponse = await axios.post(
-            "http://localhost:8000/api/create-order",
-            {
-                user_id: user.id,
-                amount: total.toFixed(2),
-                items: product.product_name,
-                // Include other necessary data
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                    "Content-Type": "application/json",
+        try {
+            // First create the order in your database
+            const orderResponse = await axios.post(
+                "http://localhost:8000/api/create-order",
+                {
+                    user_id: user.id,
+                    amount: total.toFixed(2),
+                    items: product.product_name,
+                    // Include other necessary data
                 },
-            }
-        );
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
-        const orderId = orderResponse.data.order_id;
+            const orderId = orderResponse.data.order_id;
 
-        // Then redirect to PayHere
-        const paymentData = {
-            sandbox: true,
-            merchant_id: "4OVxzeoSgdM4JFnJo1D0lj3LH",
-            return_url: "http://localhost:3000/payment-success",
-            cancel_url: "http://localhost:3000/payment-cancel",
-            notify_url: "http://localhost:8000/api/payment-notify",
-            order_id: orderId, // Use the order ID from your database
-            items: product.product_name,
-            amount: total.toFixed(2),
-            currency: "LKR",
-            first_name: userdetails[0].name,
-            last_name: userdetails[0].name,
-            email: userdetails[0].email || "test@example.com",
-            phone: userdetails[0].phone,
-            address: userdetails[0].address,
-            city: userdetails[0].district || "Colombo",
-            country: "Sri Lanka",
-        };
+            // Then redirect to PayHere
+            const paymentData = {
+                sandbox: true,
+                merchant_id: "4OVxzeoSgdM4JFnJo1D0lj3LH",
+                return_url: "http://localhost:3000/payment-success",
+                cancel_url: "http://localhost:3000/payment-cancel",
+                notify_url: "http://localhost:8000/api/payment-notify",
+                order_id: orderId, // Use the order ID from your database
+                items: product.product_name,
+                amount: total.toFixed(2),
+                currency: "LKR",
+                first_name: userdetails[0].name,
+                last_name: userdetails[0].name,
+                email: userdetails[0].email || "test@example.com",
+                phone: userdetails[0].phone,
+                address: userdetails[0].address,
+                city: userdetails[0].district || "Colombo",
+                country: "Sri Lanka",
+            };
 
-        const queryString = new URLSearchParams(paymentData).toString();
-        window.location.href = `https://sandbox.payhere.lk/pay/checkout?${queryString}`;
-        
-    } catch (error) {
-        console.error("Error creating order:", error);
-        alert("Failed to create order. Please try again.");
-    }
-};
+            const queryString = new URLSearchParams(paymentData).toString();
+            window.location.href = `https://sandbox.payhere.lk/pay/checkout?${queryString}`;
+
+        } catch (error) {
+            console.error("Error creating order:", error);
+            alert("Failed to create order. Please try again.");
+        }
+    };
     return (
         <div className="h-auto flex items-center justify-center py-8">
             <div className="w-full container bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
